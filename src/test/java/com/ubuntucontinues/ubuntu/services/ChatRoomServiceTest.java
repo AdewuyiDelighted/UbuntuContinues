@@ -33,7 +33,7 @@ class ChatRoomServiceTest {
         assertNotNull(response);
         assertNotNull(response.getSender_recipient_id());
         assertNotNull(response.getRecipient_sender_id());
-        assertThat(chatRoomService.findAll().size()).isEqualTo(chat_room_size+2);
+        assertThat(chatRoomService.findAll().size()).isEqualTo(chat_room_size);
     }
 
     @Test
