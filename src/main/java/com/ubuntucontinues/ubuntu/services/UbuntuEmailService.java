@@ -32,7 +32,7 @@ public class UbuntuEmailService implements EmailService{
         headers.set("api-key", apiKey);
         HttpEntity<?> entity = new HttpEntity<>(request, headers);
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForEntity(url, entity, BrevoMailResponse.class);
+        System.out.println(restTemplate.postForEntity(url, entity, BrevoMailResponse.class));
     }
 
     private static BrevoMailRequest createRequest(String sender, String message, String recipient) {
