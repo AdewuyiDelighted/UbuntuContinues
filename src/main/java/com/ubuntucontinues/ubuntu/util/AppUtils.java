@@ -4,6 +4,8 @@ public class AppUtils {
 
 
     public static final String REQUEST_MESSAGE = "FRIEND_REQUEST";
+    public static final String NEW_COHORT_MESSAGE = "Cohort Registered Successfully";
+    public static final String COHORT_NOT_AVAILABLE = "Cohort With Submitted Credentials Doesn't Exist";
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {
         return String.format("""

@@ -1,20 +1,17 @@
 package com.ubuntucontinues.ubuntu.data.models;
 
-import com.ubuntucontinues.ubuntu.data.enums.Status;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 @Getter
 @Setter
-@Document
-public class User {
+@Builder
+public class Cohort {
     @Id
-    private String userName;
-    private String fullName;
-    private Status status;
     private String cohortNumber;
-    private String email;
-    private String profilePicture;
+    private String cohortName;
 }

@@ -16,7 +16,8 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UbuntuUserService implements UserService{
+public class
+UbuntuUserService implements UserService{
     private final UserRepository userRepository;
     public SaveUserResponse saveUser(SaveUserRequest saveUserRequest){
         saveUserRequest.getUser().setStatus(Status.ONLINE);
