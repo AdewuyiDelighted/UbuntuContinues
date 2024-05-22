@@ -8,7 +8,7 @@ import com.ubuntucontinues.ubuntu.dto.responses.SaveUserResponse;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 
 public interface UserService {
-    public SaveUserResponse saveUser(SaveUserRequest request);
-    public DisconnectUserResponse disconnect(DisconnectUserRequest request) throws UserExistException;
-    public FindAllUsersResponse findConnectedUser();
+     SaveUserResponse saveUser(SaveUserRequest request);
+     DisconnectUserResponse disconnect(DisconnectUserRequest request) throws UserExistException;
+     FindAllUsersResponse findConnectedUser();
 }
