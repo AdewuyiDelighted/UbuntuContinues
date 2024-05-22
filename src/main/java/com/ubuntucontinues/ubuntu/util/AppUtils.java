@@ -2,8 +2,9 @@ package com.ubuntucontinues.ubuntu.util;
 
 public class AppUtils {
 
-
     public static final String REQUEST_MESSAGE = "FRIEND_REQUEST";
+    public static final String DROP_DOWN_MESSAGE = "User with following id %s does not exist";
+
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {
         return String.format("""
