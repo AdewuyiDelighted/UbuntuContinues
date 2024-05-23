@@ -12,10 +12,11 @@ import java.time.Instant;
 import java.util.Map;
 
 @Service
-public class UbuntuJwtService implements JwtService{
+public class UbuntuJwtService implements JwtService {
 
     @Value("${oauth.api.key}")
     private String secretKey;
+
 
     @Override
     public String createToken(String senderEmail, String recipientEmail) {
@@ -24,14 +25,14 @@ public class UbuntuJwtService implements JwtService{
                 .withSubject("access_token")
                 .withClaim("sender_email", senderEmail)
                 .withClaim("recipient_email", recipientEmail)
-                .withExpiresAt(Instant.now().plusSeconds(20*86400))
+                .withExpiresAt(Instant.now().plusSeconds(20 * 86400))
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
     @Override
-    public <T>T decodeToken(String token, Class<T> clazz) {
-       DecodedJWT decodedJWT =  JWT.decode(token);
-       Map<String, Claim> claims = decodedJWT.getClaims();
+    public <T> T decodeToken(String token, Class<T> clazz) {
+        DecodedJWT decodedJWT = JWT.decode(token);
+        Map<String, Claim> claims = decodedJWT.getClaims();
         T decodedObject;
         try {
             decodedObject = clazz.newInstance();
@@ -50,7 +51,7 @@ public class UbuntuJwtService implements JwtService{
                 Field field = clazz.getDeclaredField(claim);
                 field.setAccessible(true);
                 field.set(decodedObject, value.asString());
-            }catch (Exception ignored){
+            } catch (Exception ignored) {
             }
         }
     }

@@ -7,7 +7,6 @@ import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
 import com.ubuntucontinues.ubuntu.services.ChatMessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

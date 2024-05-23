@@ -3,10 +3,11 @@ package com.ubuntucontinues.ubuntu.services;
 import com.ubuntucontinues.ubuntu.data.models.ChatMessage;
 import com.ubuntucontinues.ubuntu.data.repositories.ChatMessageRepository;
 import com.ubuntucontinues.ubuntu.dto.request.FindAllMessagesRequest;
-import com.ubuntucontinues.ubuntu.dto.request.RetrieveChatRoomRequest;
 import com.ubuntucontinues.ubuntu.dto.request.SendMessageRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
 import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class UbuntuChatMessageService implements ChatMessageService {
     private final UbuntuChatRoomService ubuntuChatRoomService;
     private final ChatMessageRepository chatMessageRepository;
+    private ModelMapper modelMapper;
 
     @Override
     public SendMessageResponse saveMessage(SendMessageRequest sendMessageRequest) {
@@ -51,7 +53,7 @@ public class UbuntuChatMessageService implements ChatMessageService {
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
         return chatMessageRepository.findByChatMessageId(chatId.get())
                 .stream()
-                .map(chatMessage -> new SendMessageResponse())
+                .map(chatMessage -> modelMapper.map(chatMessage,SendMessageResponse.class))
                 .toList();
 
     }
