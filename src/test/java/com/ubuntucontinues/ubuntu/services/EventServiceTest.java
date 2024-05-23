@@ -3,6 +3,7 @@ package com.ubuntucontinues.ubuntu.services;
 import com.ubuntucontinues.ubuntu.data.repositories.EventRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreateEventRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.CreateEventResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.DeleteEventResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.FindAEventResponse;
 import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
 import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class EventServiceTest {
@@ -47,5 +48,13 @@ public class EventServiceTest {
     @Test public void testWeCanFindAllEventCreated() throws EventDoesntExistException {
         assertEquals(1,eventServices.findAllEvent().size());
 
+    }
+
+    @Test
+    public void testThatEventCanBeRemovedByTheId() throws EventDoesntExistException {
+        String eventId =  "664f4d6ea856782be9913e1e";
+        DeleteEventResponse response = eventServices.deleteEvent(eventId);
+        assertNotNull(response);
+        assertThrows(EventDoesntExistException.class, ()-> eventServices.findEvent(eventId));
     }
 }

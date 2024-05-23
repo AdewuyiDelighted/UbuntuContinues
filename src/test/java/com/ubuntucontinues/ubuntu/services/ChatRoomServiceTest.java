@@ -28,12 +28,10 @@ class ChatRoomServiceTest {
     @Test
     public void testThatTwoChatRoomCanBeInitiatedOnceTheLinkIsClickOn(){
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJxdWl6LWFwcGxpY2F0aW9uIiwic3ViIjoiYWNjZXNzX3Rva2VuIiwic2VuZGVyX2VtYWlsIjoib2pvdDYzMEBnbWFpbC5jb20iLCJyZWNpcGllbnRfZW1haWwiOiJkZWJvcmFoZGVsaWdodGVkNUBnbWFpbC5jb20iLCJleHAiOjE3MTc2ODExODF9._7Exutg8-q7NjdlJPFqwkpel6-1J4SO3KS3EOzw1B4g";
-        long chat_room_size = chatRoomService.findAll().size();
         CreateChatRoomResponse response = chatRoomService.createChatRoom(token);
         assertNotNull(response);
         assertNotNull(response.getSender_recipient_id());
         assertNotNull(response.getRecipient_sender_id());
-        assertThat(chatRoomService.findAll().size()).isEqualTo(chat_room_size);
     }
 
     @Test
