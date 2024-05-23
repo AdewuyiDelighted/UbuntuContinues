@@ -40,11 +40,12 @@ public class EventServiceTest {
 
     @Test
     public void testThatCreatedEventCanBeFind() throws EventDoesntExistException {
-        String eventId = "664f332552f9f6584d365688";
+        String eventId = "664f416c68964e79e2eae90f";
         FindAEventResponse findAEventResponse = eventServices.findEvent(eventId);
         assertThat(findAEventResponse.getTitle(), is("May Community Hangout 2024"));
     }
     @Test public void testWeCanFindAllEventCreated() throws EventDoesntExistException {
         assertEquals(1,eventServices.findAllEvent().size());
+
     }
 }

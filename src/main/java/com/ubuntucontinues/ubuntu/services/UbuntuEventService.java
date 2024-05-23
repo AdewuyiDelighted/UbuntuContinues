@@ -53,10 +53,14 @@ public class UbuntuEventService implements EventServices {
     @Override
     public List<FindAEventResponse> findAllEvent() throws EventDoesntExistException {
         List<Event> events = eventRepository.findAll();
-        if (!events.isEmpty()) return eventRepository.findAll()
-                .stream()
-                .map(event -> new FindAEventResponse())
-                .toList();
+        if (!events.isEmpty()) {
+            List<FindAEventResponse> findAEventResponses = eventRepository.findAll()
+                    .stream()
+                    .map(event -> modelMapper.map(event, FindAEventResponse.class))
+                    .toList();
+            System.out.println(findAEventResponses);
+            return findAEventResponses;
+        }
         throw new EventDoesntExistException(NO_EVENT_AVAILABLE);
     }
 

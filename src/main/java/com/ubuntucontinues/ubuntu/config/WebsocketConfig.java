@@ -1,4 +1,4 @@
-package com.ubuntucontinues.ubuntu.websocketConfig;
+package com.ubuntucontinues.ubuntu.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;

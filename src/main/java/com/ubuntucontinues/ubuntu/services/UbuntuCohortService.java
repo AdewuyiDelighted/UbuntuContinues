@@ -59,7 +59,7 @@ public class UbuntuCohortService implements CohortService {
         List<Cohort> cohorts = cohortRepository.findAll();
         if (!cohorts.isEmpty())
             return cohorts.stream()
-                    .map(cohort -> new FindCohortResponse())
+                    .map(cohort -> modelMapper.map(cohort,FindCohortResponse.class))
                     .toList();
         throw new CohortNotExistException(NO_COHORT_AVAILABLE);
     }
