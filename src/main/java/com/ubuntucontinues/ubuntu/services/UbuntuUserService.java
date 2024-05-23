@@ -17,7 +17,8 @@ import static com.ubuntucontinues.ubuntu.util.AppUtils.DROP_DOWN_MESSAGE;
 
 @Service
 @RequiredArgsConstructor
-public class UbuntuUserService implements UserService{
+public class
+UbuntuUserService implements UserService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     public SaveUserResponse saveUser(SaveUserRequest saveUserRequest){
