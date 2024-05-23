@@ -14,6 +14,9 @@ public class AppUtils {
     public static final String NO_EVENT_AVAILABLE = "No Event Available";
     public static final String DROP_DOWN_MESSAGE = "User with following id %s does not exist";
     public static final String DELETE_EVENT_MESSAGE = "Event has been deleted";
+    public static final String USER_NOT_EXIST = "User does not Exist";
+    public static final String QUESTION_UPLOADED_MESSAGE = "Question Uploaded Successfully";
+    public static final String QUESTION_NOT_EXIST = "Question does not Exist";
 
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {

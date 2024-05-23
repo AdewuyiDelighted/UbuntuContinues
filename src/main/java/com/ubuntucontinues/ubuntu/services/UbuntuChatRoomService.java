@@ -54,14 +54,14 @@ public class UbuntuChatRoomService implements ChatRoomService{
 
         ChatRoom recipient_sender_chatRoom = mapChatRoom(response.getRecipient_email(), response.getSender_email());
 
-        ChatRoom savedSender_Recipient_ChatRoom = chatRoomRepository.save(sender_recipient_chatRoom);
-        ChatRoom savedRecipient_Sender_ChatRoom = chatRoomRepository.save(recipient_sender_chatRoom);
+        chatRoomRepository.save(sender_recipient_chatRoom);
+
+        chatRoomRepository.save(recipient_sender_chatRoom);
 
         CreateChatRoomResponse createChatRoomResponse = new CreateChatRoomResponse();
-        createChatRoomResponse.setSender_recipient_id(savedSender_Recipient_ChatRoom.getChat_id());
-        createChatRoomResponse.setRecipient_sender_id(savedRecipient_Sender_ChatRoom.getChat_id());
+        createChatRoomResponse.setSender_recipient_id(sender_recipient_chatRoom.getChat_id());
+        createChatRoomResponse.setRecipient_sender_id(recipient_sender_chatRoom.getChat_id());
         createChatRoomResponse.setMessage("Chat Room Created Successfully");
-
         return createChatRoomResponse;
     }
 

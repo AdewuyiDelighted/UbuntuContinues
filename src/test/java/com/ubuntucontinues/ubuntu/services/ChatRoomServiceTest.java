@@ -1,5 +1,7 @@
 package com.ubuntucontinues.ubuntu.services;
 
+import com.ubuntucontinues.ubuntu.data.models.ChatRoom;
+import com.ubuntucontinues.ubuntu.data.repositories.ChatRoomRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.InitializeChatRoomRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.CreateChatRoomResponse;
@@ -7,14 +9,21 @@ import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
 class ChatRoomServiceTest {
 
     @Autowired
     private ChatRoomService chatRoomService;
+    @MockBean
+    private ChatRoomRepository repository;
 
     @Test
     public void testThatCreateChatRoomId() {
@@ -39,6 +48,18 @@ class ChatRoomServiceTest {
         RetrieveChatRoomRequest request = new RetrieveChatRoomRequest();
         request.setSender("ojot630@gmail.com");
         request.setRecipient("deborahdelighted5@gmail.com");
+
+        ChatRoom room = new ChatRoom();
+
+        room.setSenderEmail(request.getSender());
+
+        room.setRecipientEmail(request.getRecipient());
+
+        room.setChat_id(request.getSender()+"_"+request.getRecipient());
+
+        when(repository.findChatRoomBySenderEmailAndRecipientEmail(request.getSender(),
+                request.getRecipient())).thenReturn(Optional.of(room));
+
         String id = chatRoomService.getAChatRoomId(request).get();
         assertNotNull(id);
         assertThat(id).isEqualTo(request.getSender()+"_"+request.getRecipient());

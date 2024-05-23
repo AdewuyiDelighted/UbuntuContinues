@@ -66,6 +66,11 @@ UbuntuUserService implements UserService{
         return userRepository.findById(userName)
                 .orElseThrow(()->new UserExistException("\"err\" :\"Not a valid user\""));
     }
+    @Override
+    public User findBY(String userName) throws UserExistException {
+        return userRepository.findById(userName)
+                .orElseThrow(()->new UserExistException("\"err\" :\"Not a valid user\""));
+    }
 
 
 

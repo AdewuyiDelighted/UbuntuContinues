@@ -10,6 +10,6 @@ import java.util.List;
 public class UploadQuestionRequest {
     private String title;
     private String body;
-    private String username;
+    private String userId;
     private List<String> tags;
 }
