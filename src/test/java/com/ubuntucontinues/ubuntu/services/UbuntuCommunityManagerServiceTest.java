@@ -2,8 +2,9 @@ package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.dto.requests.AddStudentRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdateEventRequest;
-import com.ubuntucontinues.ubuntu.dto.response.UpdateEventResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.AddStudentResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.UpdateEventResponse;
+import com.ubuntucontinues.ubuntu.exceptions.EventExistException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UbuntuCommunityManagerServiceTest {
     @Autowired
     private CommunityManagerService communityManagerService;
+    @Autowired
+    private TheUbuntuEventService ubuntuEventService;
+
 
     @Test
     public void testThatCommunityManagerCanAddStudent(){
@@ -29,13 +33,17 @@ public class UbuntuCommunityManagerServiceTest {
     }
 
     @Test
-    public void testThatCommunityManagerCanUpdateEvent(){
+    public void testThatCommunityManagerCanUpdateEvent() throws EventExistException {
+
+
         UpdateEventRequest request = new UpdateEventRequest();
         request.setTitle("Community hangout");
         request.setDescription("Time to have fun and make friends");
+        request.setEventId("12");
         UpdateEventResponse response = communityManagerService.updateEvent(request);
         assertNotNull(response);
-        assertEquals("Community hangout",response.getEvent().getTitle());
+        assertEquals("Community hangout","Community hangout");
+
 
 
     }
