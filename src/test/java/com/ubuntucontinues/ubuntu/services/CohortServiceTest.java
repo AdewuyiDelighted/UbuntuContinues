@@ -41,4 +41,7 @@ public class CohortServiceTest {
         assertEquals(1, cohortRepository.count());
 
     }
+    @Test public void testThatAllTheCreatedCohortCanBeFound() throws CohortNotExistException {
+        assertEquals(1,cohortService.findAllCohort().size());
+    }
 }

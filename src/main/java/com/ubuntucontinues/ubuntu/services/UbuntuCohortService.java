@@ -12,10 +12,10 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-import static com.ubuntucontinues.ubuntu.util.AppUtils.COHORT_NOT_AVAILABLE;
-import static com.ubuntucontinues.ubuntu.util.AppUtils.NEW_COHORT_MESSAGE;
+import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
 
 @Service
 @AllArgsConstructor
@@ -42,21 +42,31 @@ public class UbuntuCohortService implements CohortService {
             return createCohortResponse;
 
         }
-        throw new CohortAlreadyExistException(COHORT_NOT_AVAILABLE);
+        throw new CohortAlreadyExistException(COHORT_ALREADY_EXIST);
     }
 
     @Override
-    public FindCohortResponse findCohort(FindCohortRequest findCohortRequest) throws CohortAlreadyExistException {
-        Cohort foundCohort = cohortExist(findCohortRequest.getCohortNumber(),findCohortRequest.getCohortName());
+    public FindCohortResponse findCohort(FindCohortRequest findCohortRequest) throws CohortNotExistException {
+        Cohort foundCohort = cohortExist(findCohortRequest.getCohortNumber(), findCohortRequest.getCohortName());
         if (foundCohort != null) {
             return modelMapper.map(foundCohort, FindCohortResponse.class);
         }
-        throw new CohortAlreadyExistException(COHORT_NOT_AVAILABLE);
+        throw new CohortNotExistException(COHORT_DOESNT_EXIST);
     }
 
-    private Cohort cohortExist(String cohortNumber,String cohortName) {
-        Optional<Cohort> foundCohort = cohortRepository.findCohortByCohortNumberAndCohortName(cohortNumber,cohortName);
-        System.out.println(foundCohort.get());
+    @Override
+    public List<FindCohortResponse> findAllCohort() throws CohortNotExistException {
+        List<Cohort> cohorts = cohortRepository.findAll();
+        if (!cohorts.isEmpty())
+            return cohorts.stream()
+                    .map(cohort -> new FindCohortResponse())
+                    .toList();
+        throw new CohortNotExistException(NO_COHORT_AVAILABLE);
+    }
+
+
+    private Cohort cohortExist(String cohortNumber, String cohortName) {
+        Optional<Cohort> foundCohort = cohortRepository.findCohortByCohortNumberAndCohortName(cohortNumber, cohortName);
         return foundCohort.orElse(null);
     }
 
