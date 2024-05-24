@@ -12,6 +12,9 @@ public class AppUtils {
     public static final String EVENT_ALREADY_EXIST = "Event Already Existed";
     public static final String EVENT_DOESNT_EXIST = "Event Doesn't Exist";
     public static final String NO_EVENT_AVAILABLE = "No Event Available";
+   public static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+    public static final String CHARACTER = "!@#$%^&*";
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {
         return String.format("""
@@ -26,5 +29,17 @@ public class AppUtils {
                 <a href="%s" target="_blank"><button style="color":blue;>Accept</button></a>
                 </body>
                 """, recipientEmail, senderEmail, link);
+    }
+
+    public static String NOTIFICATION_MESSAGE(String title, String message) {
+        return String.format("""
+                <!DOCTYPE>
+                <head>
+                <title>%s</title>
+                </head>
+                <body>
+                <p>%s</>
+                </body>
+                """, title, message);
     }
 }
