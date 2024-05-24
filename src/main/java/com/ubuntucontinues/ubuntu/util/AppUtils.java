@@ -12,6 +12,9 @@ public class AppUtils {
     public static final String EVENT_ALREADY_EXIST = "Event Already Existed";
     public static final String EVENT_DOESNT_EXIST = "Event Doesn't Exist";
     public static final String NO_EVENT_AVAILABLE = "No Event Available";
+   public static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+    public static final String CHARACTER = "!@#$%^&*";
     public static final String DROP_DOWN_MESSAGE = "User with following id %s does not exist";
     public static final String DELETE_EVENT_MESSAGE = "Event has been deleted";
     public static final String USER_NOT_EXIST = "User does not Exist";
@@ -33,5 +36,17 @@ public class AppUtils {
                 <a href="%s" target="_blank"><button style="color":blue;>Accept</button></a>
                 </body>
                 """, recipientEmail, senderEmail, link);
+    }
+
+    public static String NOTIFICATION_MESSAGE(String title, String message) {
+        return String.format("""
+                <!DOCTYPE>
+                <head>
+                <title>%s</title>
+                </head>
+                <body>
+                <p>%s</>
+                </body>
+                """, title, message);
     }
 }
