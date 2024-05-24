@@ -5,4 +5,5 @@ import com.ubuntucontinues.ubuntu.dto.responses.CreateOneUserNotificationRespons
 
 public interface  NotificationService {
     CreateOneUserNotificationResponse sendOneUserNotification(CreateOneUserNotificationRequest createOneUserNotificationRequest);
+
 }
