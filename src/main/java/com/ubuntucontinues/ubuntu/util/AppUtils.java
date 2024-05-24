@@ -17,6 +17,7 @@ public class AppUtils {
     public static final String USER_NOT_EXIST = "User does not Exist";
     public static final String QUESTION_UPLOADED_MESSAGE = "Question Uploaded Successfully";
     public static final String QUESTION_NOT_EXIST = "Question does not Exist";
+    public static final String INITIALIZE_REQUEST_MESSAGE = "Request has been sent to the sender to activate chat";
 
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {
