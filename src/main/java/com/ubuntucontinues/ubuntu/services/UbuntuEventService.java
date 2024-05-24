@@ -4,9 +4,11 @@ import com.ubuntucontinues.ubuntu.data.models.Event;
 import com.ubuntucontinues.ubuntu.data.repositories.EventRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreateEventRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.CreateEventResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.DeleteEventResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.FindAEventResponse;
 import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
 import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
+import com.ubuntucontinues.ubuntu.util.AppUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,16 @@ public class UbuntuEventService implements EventServices {
             return findAEventResponses;
         }
         throw new EventDoesntExistException(NO_EVENT_AVAILABLE);
+    }
+
+    @Override
+    public DeleteEventResponse deleteEvent(String eventId) throws EventDoesntExistException {
+        Event event = eventRepository.findById(eventId).orElseThrow(()-> new EventDoesntExistException(EVENT_DOESNT_EXIST));
+        eventRepository.delete(event);
+        DeleteEventResponse eventResponse = new DeleteEventResponse();
+        eventResponse.setDeleteEventId(event.getId());
+        eventResponse.setMessage(DELETE_EVENT_MESSAGE);
+        return eventResponse;
     }
 
     private Optional<Event> eventExist(String title) {
