@@ -1,5 +1,6 @@
 package com.ubuntucontinues.ubuntu.services;
 
+import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.dto.requests.DisconnectUserRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
@@ -11,4 +12,5 @@ public interface UserService {
     FindAllUsersResponse findConnectedUser();
     DropDownResponse dropDown(String userId) throws UserExistException;
     UserResponse findUser(String dropDownUserId) throws UserExistException;
+    User findBY(String userName) throws UserExistException;
 }

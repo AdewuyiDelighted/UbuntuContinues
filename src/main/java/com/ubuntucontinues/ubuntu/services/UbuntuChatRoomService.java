@@ -3,7 +3,9 @@ package com.ubuntucontinues.ubuntu.services;
 import com.ubuntucontinues.ubuntu.data.models.ChatRoom;
 import com.ubuntucontinues.ubuntu.data.repositories.ChatRoomRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.InitializeChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.Recipient;
 import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.Sender;
 import com.ubuntucontinues.ubuntu.dto.responses.CreateChatRoomResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.DecodeChatRoomResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ubuntucontinues.ubuntu.util.AppUtils.INITIATE_REQUEST_MESSAGE;
+import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
 
 @Service
 @Slf4j
@@ -31,13 +33,12 @@ public class UbuntuChatRoomService implements ChatRoomService{
     @Override
     public InitializeChatRoomResponse initializeChatRoom(InitializeChatRoomRequest request) {
         String token = "localhost:8080/api/v1/chatroom/"+jwtService.createToken(request.getSender_email(), request.getRecipient_email());
-        emailService.sendMessage(request.getSender_email(),
-                INITIATE_REQUEST_MESSAGE(request.getSender_email(),
-                        request.getRecipient_email(),
-                        token),
-                request.getRecipient_email());
+        emailService.sendMessage(new Sender(request.getSender_email(), request.getSender_email()),
+                INITIATE_REQUEST_MESSAGE(request.getSender_email(), request.getRecipient_email(), token),
+                List.of(new Recipient(request.getRecipient_email(), request.getRecipient_email())),
+                REQUEST_MESSAGE);
         InitializeChatRoomResponse response = new InitializeChatRoomResponse();
-        response.setMessage("Request has been sent to the sender to activate chat");
+        response.setMessage(INITIALIZE_REQUEST_MESSAGE);
         return response;
     }
 
@@ -54,14 +55,14 @@ public class UbuntuChatRoomService implements ChatRoomService{
 
         ChatRoom recipient_sender_chatRoom = mapChatRoom(response.getRecipient_email(), response.getSender_email());
 
-        ChatRoom savedSender_Recipient_ChatRoom = chatRoomRepository.save(sender_recipient_chatRoom);
-        ChatRoom savedRecipient_Sender_ChatRoom = chatRoomRepository.save(recipient_sender_chatRoom);
+        chatRoomRepository.save(sender_recipient_chatRoom);
+
+        chatRoomRepository.save(recipient_sender_chatRoom);
 
         CreateChatRoomResponse createChatRoomResponse = new CreateChatRoomResponse();
-        createChatRoomResponse.setSender_recipient_id(savedSender_Recipient_ChatRoom.getChat_id());
-        createChatRoomResponse.setRecipient_sender_id(savedRecipient_Sender_ChatRoom.getChat_id());
+        createChatRoomResponse.setSender_recipient_id(sender_recipient_chatRoom.getChat_id());
+        createChatRoomResponse.setRecipient_sender_id(recipient_sender_chatRoom.getChat_id());
         createChatRoomResponse.setMessage("Chat Room Created Successfully");
-
         return createChatRoomResponse;
     }
 
