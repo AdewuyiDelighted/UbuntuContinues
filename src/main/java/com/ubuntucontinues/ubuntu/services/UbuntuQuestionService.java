@@ -60,4 +60,12 @@ public class UbuntuQuestionService implements QuestionService{
                 .orElseThrow(() -> new QuestionDoesNotExistException(AppUtils.QUESTION_NOT_EXIST)),
                 QuestionResponse.class);
     }
+
+    @Override
+    public List<QuestionResponse> findAllByUser(String userId) throws UserExistException {
+        return questionRepository.findAllByUser(userService.findBY(userId))
+                .stream()
+                .map(question -> mapper.map(question, QuestionResponse.class))
+                .toList();
+    }
 }

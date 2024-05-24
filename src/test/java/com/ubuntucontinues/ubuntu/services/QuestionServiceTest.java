@@ -67,4 +67,15 @@ class QuestionServiceTest {
         assertThat(response.getId()).isEqualTo(questionId);
     }
 
+    @Test public void testThatUserCanGetAllQuestionBelongingToThem() throws UserExistException {
+        String userId = "123456";
+        User user = new User(userId, "test", "testing", "test@email.com");
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(repository.findAllByUser(user)).
+                thenReturn(List.of(new Question(), new Question(), new Question()));
+        assertThat(questionService.findAllByUser(userId).size()).isEqualTo(3);
+    }
+
+
+
 }
