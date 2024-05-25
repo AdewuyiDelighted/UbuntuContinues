@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class UbuntuUserService implements UserService{
     }
 
     public DisconnectUserResponse disconnect(DisconnectUserRequest request) throws UserExistException {
-        User foundUser = findBy(request.getUserName());
+        User foundUser = findBy(request.getUserId());
         foundUser.setStatus(Status.OFFLINE);
         userRepository.save(foundUser);
         DisconnectUserResponse response = new DisconnectUserResponse();
@@ -44,11 +45,21 @@ public class UbuntuUserService implements UserService{
         return response;
     }
 
-    private User findBy(String userName) throws UserExistException {
-        return userRepository.findById(userName)
+
+
+    public User findBy(String id) throws UserExistException {
+        return userRepository.findById(id)
                 .orElseThrow(()->new UserExistException("\"err\" :\"Not a valid user\""));
     }
+    public Optional<User> findByEmail(String email) throws UserExistException {
+        return Optional.ofNullable(userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\"")));
+    }
 
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 
 
 }

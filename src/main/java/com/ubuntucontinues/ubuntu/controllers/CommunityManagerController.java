@@ -1,6 +1,8 @@
 package com.ubuntucontinues.ubuntu.controllers;
 
 import com.ubuntucontinues.ubuntu.dto.requests.AddStudentRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.UpdateEventRequest;
+import com.ubuntucontinues.ubuntu.exceptions.EventExistException;
 import com.ubuntucontinues.ubuntu.services.CommunityManagerService;
 import com.ubuntucontinues.ubuntu.util.ApiResponse;
 import com.ubuntucontinues.ubuntu.util.GenerateApiResponse;
@@ -10,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/community_manager/")
@@ -27,6 +26,14 @@ public class CommunityManagerController {
         return ResponseEntity.ok(communityManagerService.addStudent(request));
 
 
+    }
+
+    @PatchMapping("update_event")
+    public ResponseEntity<?> updateEvent( @Valid @RequestBody  UpdateEventRequest request, BindingResult result) throws EventExistException {
+
+        ApiResponse errorMessage = getApiResponseResponseEntity(result);
+        if(errorMessage!=null) return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok(communityManagerService.updateEvent(request));
     }
 
 

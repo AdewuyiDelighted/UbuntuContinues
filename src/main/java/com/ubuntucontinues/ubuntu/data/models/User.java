@@ -1,5 +1,6 @@
 package com.ubuntucontinues.ubuntu.data.models;
 
+import com.ubuntucontinues.ubuntu.data.enums.AccountState;
 import com.ubuntucontinues.ubuntu.data.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,5 +16,7 @@ public class User {
     private Status status;
     private String Email;
     private Long cohortNumber;
+    private String password;
+    private AccountState accountState=AccountState.NOT_ACTIVATED;
 
 }
