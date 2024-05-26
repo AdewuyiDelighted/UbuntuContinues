@@ -25,6 +25,7 @@ class ChatRoomServiceTest {
     @MockBean
     private ChatRoomRepository repository;
 
+
     @Test
     public void testThatCreateChatRoomId() {
         InitializeChatRoomRequest request = new InitializeChatRoomRequest();
