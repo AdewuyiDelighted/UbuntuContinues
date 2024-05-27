@@ -1,4 +1,4 @@
-package com.ubuntucontinues.ubuntu.websocketConfig;
+package com.ubuntucontinues.ubuntu.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
