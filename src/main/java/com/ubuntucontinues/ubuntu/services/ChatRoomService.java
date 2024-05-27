@@ -1,10 +1,10 @@
 package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.data.models.ChatRoom;
-import com.ubuntucontinues.ubuntu.dto.request.InitializeChatRoomRequest;
-import com.ubuntucontinues.ubuntu.dto.request.RetrieveChatRoomRequest;
-import com.ubuntucontinues.ubuntu.dto.response.CreateChatRoomResponse;
-import com.ubuntucontinues.ubuntu.dto.response.InitializeChatRoomResponse;
+import com.ubuntucontinues.ubuntu.dto.requests.InitializeChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.CreateChatRoomResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
 
 import java.util.List;
 import java.util.Optional;

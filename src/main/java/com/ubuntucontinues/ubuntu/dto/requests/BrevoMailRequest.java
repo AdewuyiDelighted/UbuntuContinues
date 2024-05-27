@@ -1,5 +1,7 @@
-package com.ubuntucontinues.ubuntu.dto.request;
+package com.ubuntucontinues.ubuntu.dto.requests;
 
+import com.ubuntucontinues.ubuntu.dto.requests.Recipient;
+import com.ubuntucontinues.ubuntu.dto.requests.Sender;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

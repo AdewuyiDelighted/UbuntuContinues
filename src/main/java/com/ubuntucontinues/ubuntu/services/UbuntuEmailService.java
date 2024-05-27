@@ -1,9 +1,9 @@
 package com.ubuntucontinues.ubuntu.services;
 
-import com.ubuntucontinues.ubuntu.dto.request.BrevoMailRequest;
-import com.ubuntucontinues.ubuntu.dto.request.Recipient;
-import com.ubuntucontinues.ubuntu.dto.request.Sender;
-import com.ubuntucontinues.ubuntu.dto.response.BrevoMailResponse;
+import com.ubuntucontinues.ubuntu.dto.requests.BrevoMailRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.Recipient;
+import com.ubuntucontinues.ubuntu.dto.requests.Sender;
+import com.ubuntucontinues.ubuntu.dto.responses.BrevoMailResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

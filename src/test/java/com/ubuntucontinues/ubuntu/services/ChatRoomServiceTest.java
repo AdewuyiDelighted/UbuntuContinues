@@ -1,9 +1,9 @@
 package com.ubuntucontinues.ubuntu.services;
 
-import com.ubuntucontinues.ubuntu.dto.request.InitializeChatRoomRequest;
-import com.ubuntucontinues.ubuntu.dto.request.RetrieveChatRoomRequest;
-import com.ubuntucontinues.ubuntu.dto.response.CreateChatRoomResponse;
-import com.ubuntucontinues.ubuntu.dto.response.InitializeChatRoomResponse;
+import com.ubuntucontinues.ubuntu.dto.requests.InitializeChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.CreateChatRoomResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
