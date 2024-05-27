@@ -1,8 +1,7 @@
 package com.ubuntucontinues.ubuntu.services;
 
-import com.ubuntucontinues.ubuntu.data.models.ChatMessage;
 import com.ubuntucontinues.ubuntu.dto.request.FindAllMessagesRequest;
-import com.ubuntucontinues.ubuntu.dto.request.SendMessageRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
 
 import java.util.List;

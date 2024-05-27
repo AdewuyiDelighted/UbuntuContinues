@@ -2,7 +2,7 @@ package com.ubuntucontinues.ubuntu.controllers;
 
 
 import com.ubuntucontinues.ubuntu.dto.request.FindAllMessagesRequest;
-import com.ubuntucontinues.ubuntu.dto.request.SendMessageRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
 import com.ubuntucontinues.ubuntu.services.ChatMessageService;
 import lombok.AllArgsConstructor;
@@ -25,6 +25,7 @@ public class ChatMessageController {
 
     @MessageMapping("/message")
     public void sendMessage(@Payload SendMessageRequest sendMessageRequest) {
+        System.out.println("Hello");
         SendMessageResponse sendMessageResponse = chatMessageService.saveMessage(sendMessageRequest);
         simpMessagingTemplate.convertAndSendToUser(sendMessageResponse.getRecipientId(), "/queue/message", new SendMessageRequest());
     }

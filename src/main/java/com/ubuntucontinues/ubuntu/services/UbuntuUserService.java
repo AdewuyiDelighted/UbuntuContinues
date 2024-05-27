@@ -4,8 +4,10 @@ import com.ubuntucontinues.ubuntu.data.enums.Status;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.UserRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.DisconnectUserRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.LoginRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
+import com.ubuntucontinues.ubuntu.exceptions.InvalidDetailException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.ubuntucontinues.ubuntu.util.AppUtils.DROP_DOWN_MESSAGE;
+import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class
 UbuntuUserService implements UserService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final JwtService jwtService;
     public SaveUserResponse saveUser(SaveUserRequest saveUserRequest){
         saveUserRequest.getUser().setStatus(Status.ONLINE);
         userRepository.save(saveUserRequest.getUser());
@@ -72,8 +75,17 @@ UbuntuUserService implements UserService{
                 .orElseThrow(()->new UserExistException("\"err\" :\"Not a valid user\""));
     }
 
-
-
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) throws InvalidDetailException  {
+        User user = userRepository.findUserByEmail(loginRequest.getEmail())
+                .orElseThrow(()-> new InvalidDetailException(INVALID_DETAIL));
+        if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
+        String token = jwtService.createToken(user.getId(), user.getEmail());
+        LoginResponse response = new LoginResponse();
+        response.setToken(token);
+        response.setMessage("Login successfully");
+        return response;
+    }
 
 
 }
