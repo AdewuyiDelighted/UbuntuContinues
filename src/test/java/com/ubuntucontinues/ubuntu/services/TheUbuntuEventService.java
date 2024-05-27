@@ -18,7 +18,7 @@ public class TheUbuntuEventService {
    private QuestionRepository questionRepository;
    private UserService userService;
    public Event saveEntity (){
-       Event event = new Event();
+       Event event = Event.builder().build();
        event.setId("12");
        event.setEventDate(LocalDateTime.parse("2024-05-23T15:30:45"));
        event.setDescription("A hangout party");

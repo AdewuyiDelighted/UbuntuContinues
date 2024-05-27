@@ -14,11 +14,11 @@ import java.util.List;
 @Document
 @Builder
 public class Event {
-   private  String id;
-   private String title;
-   private String description;
-   @JsonIgnore
-   private LocalDateTime dateCreated = LocalDateTime.now();
+    private String id;
+    private String title;
+    private String description;
+    @JsonIgnore
+    private LocalDateTime dateCreated = LocalDateTime.now();
    @JsonIgnore
    private LocalDateTime eventDate;
     private List<String> eventImage;

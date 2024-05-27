@@ -16,15 +16,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ubuntucontinues.ubuntu.data.enums.AccountState.ACTIVATED;
+import static com.ubuntucontinues.ubuntu.data.enums.AccountState.NOT_ACTIVATED;
 import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
 
 @Service
 @RequiredArgsConstructor
-public class UbuntuUserService implements UserService{
+public class UbuntuUserService implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
-    public SaveUserResponse saveUser(SaveUserRequest saveUserRequest){
+
+    public SaveUserResponse saveUser(SaveUserRequest saveUserRequest) {
         saveUserRequest.getUser().setStatus(Status.ONLINE);
         userRepository.save(saveUserRequest.getUser());
         SaveUserResponse response = new SaveUserResponse();
@@ -43,7 +46,7 @@ public class UbuntuUserService implements UserService{
 
     }
 
-    public FindAllUsersResponse findConnectedUser(){
+    public FindAllUsersResponse findConnectedUser() {
         FindAllUsersResponse response = new FindAllUsersResponse();
         List<User> users = userRepository.findAllByStatus(Status.ONLINE);
         response.setUsers(users);
@@ -65,28 +68,35 @@ public class UbuntuUserService implements UserService{
         return modelMapper.map(user, UserResponse.class);
     }
 
-    private User findBy(String userName) throws UserExistException {
-        return userRepository.findById(userName)
-
 
     public User findBy(String id) throws UserExistException {
         return userRepository.findById(id)
-                .orElseThrow(()->new UserExistException("\"err\" :\"Not a valid user\""));
+                .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\""));
     }
+
+    @Override
+    public void setLoginPassword(User user, String password) {
+        Optional<User> foundUser = userRepository.findUserByEmail(user.getEmail());
+        foundUser.get().setPassword(password);
+        userRepository.save(foundUser.get());
+
+    }
+
     @Override
     public User findBY(String userName) throws UserExistException {
         return userRepository.findById(userName)
-                .orElseThrow(()->new UserExistException("\"err\" :\"Not a valid user\""));
+                .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\""));
     }
+
     public Optional<User> findByEmail(String email) throws UserExistException {
         return Optional.ofNullable(userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\"")));
     }
 
     @Override
-    public LoginResponse login(LoginRequest loginRequest) throws InvalidDetailException  {
+    public LoginResponse login(LoginRequest loginRequest) throws InvalidDetailException {
         User user = userRepository.findUserByEmail(loginRequest.getEmail())
-                .orElseThrow(()-> new InvalidDetailException(INVALID_DETAIL));
+                .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
         String token = jwtService.createToken(user.getId(), user.getEmail());
         LoginResponse response = new LoginResponse();
@@ -95,8 +105,24 @@ public class UbuntuUserService implements UserService{
         return response;
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> getAllUnActivated() {
+        getAllActivated();
+        return userRepository.findAll()
+                .stream()
+                .filter(user -> user.getAccountState().equals(NOT_ACTIVATED))
+                .toList();
+    }
+
+    public void getAllActivated() {
+        userRepository.findAll()
+                .forEach(user -> {
+                    if (user.getAccountState().equals(ACTIVATED)) ;
+                });
     }
 
 

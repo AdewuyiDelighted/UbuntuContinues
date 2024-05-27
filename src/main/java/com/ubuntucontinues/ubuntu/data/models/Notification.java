@@ -18,9 +18,10 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     private String id;
-    private String title;
+    private String message;
     private String body;
-    private LocalDateTime dateCreated;
+    private LocalDateTime createdAt;
+    private String title;
     private User user;
 }
 

@@ -5,6 +5,7 @@ import com.ubuntucontinues.ubuntu.data.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -16,6 +17,7 @@ import java.awt.*;
 @Setter
 @Document
 @NoArgsConstructor
+@ToString
 public class User {
     @Id
     private String id;

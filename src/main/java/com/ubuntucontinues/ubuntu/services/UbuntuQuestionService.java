@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_UPLOADED_MESSAGE;
+
 @Service
 @AllArgsConstructor
 public class UbuntuQuestionService implements QuestionService{
@@ -44,8 +46,6 @@ public class UbuntuQuestionService implements QuestionService{
         UploadQuestionResponse response = mapper.map(newQuestion, UploadQuestionResponse.class);
         response.setMessage(QUESTION_UPLOADED_MESSAGE);
         response.setQuestionId(newQuestion.getId());
-        log.info("Question uploaded -> {}", response);
-        log.info("Question uploaded -> {}", savedQuestion);
         return response;
     }
     @Override

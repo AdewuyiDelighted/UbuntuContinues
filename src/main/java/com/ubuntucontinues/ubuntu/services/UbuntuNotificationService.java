@@ -1,7 +1,7 @@
 package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.data.enums.AccountState;
-import com.ubuntucontinues.ubuntu.data.models.UbuntuNotification;
+import com.ubuntucontinues.ubuntu.data.models.Notification;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.NotificationRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.SendBulkNotificationRequest;
@@ -44,7 +44,7 @@ public class UbuntuNotificationService implements NotificationService{
 
     private void notifyUsers(List<User> usersToNotify,SendBulkNotificationRequest request) {
         for(User user: usersToNotify){
-            UbuntuNotification notification = modelMapper.map(request,UbuntuNotification.class);
+            Notification notification = modelMapper.map(request,Notification.class);
             notification.setUser(user);
             notificationRepository.save(notification);
 

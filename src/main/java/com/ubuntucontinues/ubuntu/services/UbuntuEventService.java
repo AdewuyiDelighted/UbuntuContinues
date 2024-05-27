@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
 import static java.util.Arrays.stream;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
