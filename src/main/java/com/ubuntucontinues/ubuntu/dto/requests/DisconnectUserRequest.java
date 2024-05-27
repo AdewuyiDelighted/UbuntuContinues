@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DisconnectUserRequest {
-    private String userName;
+    private String userId;
 }

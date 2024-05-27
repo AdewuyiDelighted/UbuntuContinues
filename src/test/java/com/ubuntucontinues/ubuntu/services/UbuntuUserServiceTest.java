@@ -32,6 +32,8 @@ public class UbuntuUserServiceTest {
         User user = new User();
         user.setFullName("Abigail Godwin");
         user.setUserName("Abby");
+        user.setCohortNumber(2L);
+        user.setEmail("babyUye@gmail.com");
         request.setUser(user);
         SaveUserResponse response = userService.saveUser(request);
         response.setUser(user);
