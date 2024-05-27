@@ -6,10 +6,13 @@ import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.NotificationRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.SendBulkNotificationRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.SendBulkNotificationResponse;
+import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
+import static com.ubuntucontinues.ubuntu.util.AppUtils.NOTIFICATION_MESSAGE;
+import com.ubuntucontinues.ubuntu.dto.requests.CreateOneUserNotificationRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.CreateOneUserNotificationResponse;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +61,23 @@ public class UbuntuNotificationService implements NotificationService{
                 .filter(Objects::nonNull)
                 .filter(user -> user.getAccountState().equals(AccountState.ACTIVATED))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public CreateOneUserNotificationResponse sendOneUserNotification(CreateOneUserNotificationRequest createOneUserNotificationRequest) throws UserExistException {
+        User user = userService.findBY(createOneUserNotificationRequest.getUserId());
+        Notification notification = Notification.builder()
+                .title(createOneUserNotificationRequest.getTitle())
+                .body(createOneUserNotificationRequest.getBody())
+                .user(user)
+                .build();
+        String messageBody = NOTIFICATION_MESSAGE(createOneUserNotificationRequest.getTitle(), createOneUserNotificationRequest.getBody());
+
+        CreateOneUserNotificationResponse createOneUserNotificationResponse = new CreateOneUserNotificationResponse();
+        createOneUserNotificationResponse.setBody(messageBody);
+        createOneUserNotificationResponse.setMessage("Notification Sent Successfully");
+
+        notificationRepository.save(notification);
+        return createOneUserNotificationResponse;
     }
 
 

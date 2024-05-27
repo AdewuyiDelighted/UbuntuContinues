@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 public class Reply {
     @Id
     private String id;
-    private String body;
-    private LocalDateTime ReplyTime = LocalDateTime.now();
-    private User user;
-    private Question question;
+    private String replyBody;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private User replyBy;
+    private Question replyTo;
 
 }
