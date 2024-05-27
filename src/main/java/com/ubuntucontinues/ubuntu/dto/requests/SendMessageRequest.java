@@ -1,4 +1,4 @@
-package com.ubuntucontinues.ubuntu.dto.request;
+package com.ubuntucontinues.ubuntu.dto.requests;
 
 import lombok.Getter;
 import lombok.Setter;

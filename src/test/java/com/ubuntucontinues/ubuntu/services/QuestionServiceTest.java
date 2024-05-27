@@ -41,7 +41,7 @@ class QuestionServiceTest {
     @Test
     public void testThatQuestionCanBeUploadedWhichIsAddedToRepo() throws UserExistException {
         String userId = "1234";
-        User user = new User("1234", "test", "testing", "testing@gmail.com");
+        User user = new User("1234", "test", "testing", "testing@gmail.com", "password");
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         UploadQuestionRequest request = new UploadQuestionRequest();
         request.setUserId(userId);
@@ -69,7 +69,7 @@ class QuestionServiceTest {
 
     @Test public void testThatUserCanGetAllQuestionBelongingToThem() throws UserExistException {
         String userId = "123456";
-        User user = new User(userId, "test", "testing", "test@email.com");
+        User user = new User(userId, "test", "testing", "test@email.com", "password");
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(repository.findAllByUser(user)).
                 thenReturn(List.of(new Question(), new Question(), new Question()));

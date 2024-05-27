@@ -22,11 +22,13 @@ public class User {
     private Cohort cohort;
     private String email;
     private String profilePicture;
+    private String password;
 
-    public User(String id, String userName, String fullName, String email) {
+    public User(String id, String userName, String fullName, String email, String password) {
         this.id = id;
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
+        this.password = password;
     }
 }
