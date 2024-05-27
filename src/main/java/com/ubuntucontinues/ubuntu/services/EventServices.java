@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface EventServices {
 
-    CreateEventResponse createPost(CreateEventRequest createEventRequest) throws EventAlreadyExistException;
+    CreateEventResponse createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException;
 
     FindAEventResponse findEvent(String eventId) throws EventDoesntExistException;
 

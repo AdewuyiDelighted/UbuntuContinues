@@ -26,7 +26,7 @@ public class UbuntuEventService implements EventServices {
     private ModelMapper modelMapper;
 
     @Override
-    public CreateEventResponse createPost(CreateEventRequest createEventRequest) throws EventAlreadyExistException {
+    public CreateEventResponse createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException {
         Optional<Event> foundEvent = eventExist(createEventRequest.getTitle());
 
         if (foundEvent.isEmpty()) {
@@ -56,7 +56,9 @@ public class UbuntuEventService implements EventServices {
     public List<FindAEventResponse> findAllEvent() throws EventDoesntExistException {
         List<Event> events = eventRepository.findAll();
         if (!events.isEmpty()) {
-            List<FindAEventResponse> findAEventResponses = eventRepository.findAll()
+            List<FindAEventResponse> findAEventResponses = eventRepository.findAll(
+
+                    )
                     .stream()
                     .map(event -> modelMapper.map(event, FindAEventResponse.class))
                     .toList();
