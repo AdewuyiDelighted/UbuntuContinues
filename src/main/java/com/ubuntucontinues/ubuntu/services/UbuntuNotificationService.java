@@ -5,6 +5,7 @@ import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.NotificationRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreateOneUserNotificationRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.CreateOneUserNotificationResponse;
+import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,12 @@ public class UbuntuNotificationService implements NotificationService {
     private UserService userService;
 
     @Override
-    public CreateOneUserNotificationResponse sendOneUserNotification(CreateOneUserNotificationRequest createOneUserNotificationRequest) {
-//        User user = userService.
+    public CreateOneUserNotificationResponse sendOneUserNotification(CreateOneUserNotificationRequest createOneUserNotificationRequest) throws UserExistException {
+        User user = userService.findBY(createOneUserNotificationRequest.getUserId());
         Notification notification = Notification.builder()
                 .title(createOneUserNotificationRequest.getTitle())
                 .body(createOneUserNotificationRequest.getBody())
-//                .user(user)
+                .user(user)
                 .build();
         String messageBody = NOTIFICATION_MESSAGE(createOneUserNotificationRequest.getTitle(), createOneUserNotificationRequest.getBody());
 

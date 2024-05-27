@@ -21,7 +21,8 @@ public class User {
     @DBRef
     private Cohort cohort;
     private String email;
-    private String profilePicture;
+    @DBRef
+    private Image profilePicture;
     private String password;
 
     public User(String id, String userName, String fullName, String email, String password) {
