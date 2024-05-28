@@ -16,12 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UbuntuCommunityManagerServiceTest {
     @Autowired
     private CommunityManagerService communityManagerService;
-    @Autowired
-    private TheUbuntuEventService ubuntuEventService;
 
 
     @Test
     public void testThatCommunityManagerCanAddStudent(){
+
         AddStudentRequest request = new AddStudentRequest();
         request.setEmail("regiusportus@gmail.com");
         request.setFullName("Abigail Godwin");

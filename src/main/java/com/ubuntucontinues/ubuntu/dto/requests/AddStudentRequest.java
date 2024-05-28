@@ -12,6 +12,6 @@ public class AddStudentRequest {
     @NotBlank(message = "Required field")
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[a-zA-Z]{2,}$", message = "Please enter a valid email address.")
     private String email;
-    private Long cohortNumber;
+    private String cohortNumber;
 }
 

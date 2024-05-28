@@ -1,5 +1,6 @@
 package com.ubuntucontinues.ubuntu.services;
 
+import com.ubuntucontinues.ubuntu.data.models.Cohort;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.dto.requests.AddStudentRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
@@ -16,10 +17,14 @@ import org.springframework.stereotype.Service;
 public class UbuntuCommunityManagerService implements CommunityManagerService{
     private ModelMapper modelMapper;
     private  UserService userService;
-    EventService eventService;
+    private EventService eventService;
+    private CohortService cohortService;
+
     @Override
     public AddStudentResponse addStudent(AddStudentRequest request) {
+        Cohort cohort = cohortService.findCohortBCohortNumber(request.getCohortNumber());
         User user = modelMapper.map(request,User.class);
+        user.setCohort(cohort);
         SaveUserRequest request1 = new SaveUserRequest();
         request1.setUser(user);
         userService.saveUser(request1);
