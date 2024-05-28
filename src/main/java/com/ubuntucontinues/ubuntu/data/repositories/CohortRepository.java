@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface CohortRepository  extends MongoRepository<Cohort,String> {
 
     Optional<Cohort> findCohortByCohortNumberAndCohortName(String cohortNumber,String cohortName);
+    Optional<Cohort> findCohortByCohortNumber(String cohortNumber);
 }
