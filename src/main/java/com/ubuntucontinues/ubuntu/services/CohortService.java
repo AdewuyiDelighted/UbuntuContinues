@@ -1,5 +1,6 @@
 package com.ubuntucontinues.ubuntu.services;
 
+import com.ubuntucontinues.ubuntu.data.models.Cohort;
 import com.ubuntucontinues.ubuntu.dto.requests.CreateCohortRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.FindCohortRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.CreateCohortResponse;
@@ -16,4 +17,5 @@ public interface CohortService {
     FindCohortResponse findCohort(FindCohortRequest findCohortRequest) throws CohortNotExistException, CohortAlreadyExistException;
 
     List<FindCohortResponse> findAllCohort() throws CohortNotExistException;
+    Cohort findCohortBCohortNumber(String cohortNumber);
 }
