@@ -12,7 +12,7 @@ public class AppUtils {
     public static final String EVENT_ALREADY_EXIST = "Event Already Existed";
     public static final String EVENT_DOESNT_EXIST = "Event Doesn't Exist";
     public static final String NO_EVENT_AVAILABLE = "No Event Available";
-   public static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
     public static final String CHARACTER = "!@#$%^&*";
     public static final String DROP_DOWN_MESSAGE = "User with following id %s does not exist";
@@ -22,6 +22,10 @@ public class AppUtils {
     public static final String QUESTION_NOT_EXIST = "Question does not Exist";
     public static final String INITIALIZE_REQUEST_MESSAGE = "Request has been sent to the sender to activate chat";
     public static final String INVALID_DETAIL = "Invalid details";
+    public static final String LOGIN_SUBJECT = "LOGIN DETAILS";
+
+    public static final String LOGIN_LINK = "http://localhost:3000/login";
+    public static final String EMAIL_NAME = "UBUNTU CONTINUES";
 
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {
@@ -49,5 +53,25 @@ public class AppUtils {
                 <p>%s</>
                 </body>
                 """, title, message);
+    }
+
+    public static String LOGIN_MESSAGE(String password) {
+        return String.format("""
+                <!DOCTYPE>
+                <head>
+                <title>Login Details</title>
+                </head>
+                <body>
+                <p>
+                We are excited to welcome you to [Your Community Chat App]! To get started, please log in using the link and password provided below.
+`              <b>Login Details:</b>
+                Login Link:%s
+                Password:%s
+                
+                Thank you for joining our community!
+                <p/>
+                </body>
+                    """, LOGIN_LINK,password);
+
     }
 }

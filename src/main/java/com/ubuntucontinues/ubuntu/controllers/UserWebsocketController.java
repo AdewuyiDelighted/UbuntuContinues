@@ -28,6 +28,6 @@ public class UserWebsocketController {
     @MessageMapping("/user.disconnectUser")
     @SendTo("/user/topic")
     public DisconnectUserResponse disconnect(@Payload DisconnectUserRequest request) throws UserExistException {
-        return userService.disconnect(request);
+        return  userService.disconnect(request);
     }
 }

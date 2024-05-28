@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/ubuntu/cloudinary")
 public class CloudinaryController {
 
     @Autowired
@@ -23,9 +23,6 @@ public class CloudinaryController {
 
     @GetMapping("/uploadImage")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-//        System.out.println(uploadImageRequest.getUserId());
-//        System.out.println(uploadImageRequest.getMultipartFile());
-        System.out.println("I got here");
         return ResponseEntity.ok(cloudinaryService.uploadImage(file));
     }
 
