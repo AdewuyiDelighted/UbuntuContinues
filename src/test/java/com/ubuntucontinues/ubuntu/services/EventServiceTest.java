@@ -39,7 +39,7 @@ public class EventServiceTest {
         createEventRequest.setDescription("A event to bring all the community members together to have fun ");
         createEventRequest.setEventDate(LocalDateTime.of(2024, 5, 24, 4, 0, 0));
 
-        CreateEventResponse createEventResponse = eventServices.createPost(createEventRequest);
+        CreateEventResponse createEventResponse = eventServices.createEvent(createEventRequest);
         assertThat(createEventResponse.getMessage(), is("Event Created Successfully"));
         assertEquals(1, eventRepository.count());
 

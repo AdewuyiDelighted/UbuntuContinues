@@ -9,6 +9,7 @@ import com.ubuntucontinues.ubuntu.data.models.Question;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.QuestionRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.UploadQuestionRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.DeleteQuestionResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.QuestionResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.UploadQuestionResponse;
 import com.ubuntucontinues.ubuntu.exceptions.QuestionDoesNotExistException;
@@ -20,9 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_NOT_EXIST;
 import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_UPLOADED_MESSAGE;
 
+
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UbuntuQuestionService implements QuestionService{
@@ -48,6 +53,7 @@ public class UbuntuQuestionService implements QuestionService{
         response.setQuestionId(newQuestion.getId());
         return response;
     }
+
     @Override
     public List<QuestionResponse> findAll() {
         return questionRepository.findAll()
@@ -67,5 +73,14 @@ public class UbuntuQuestionService implements QuestionService{
                 .stream()
                 .map(question -> mapper.map(question, QuestionResponse.class))
                 .toList();
+    }
+
+    @Override
+    public DeleteQuestionResponse deleteAQuestion(String questionId) {
+        Optional<Question> foundQuestion = questionRepository.findById(questionId);
+        foundQuestion.ifPresent(question -> questionRepository.delete(question));
+        DeleteQuestionResponse response = new DeleteQuestionResponse();
+        response.setMessage("Question Deleted Successfully");
+        return response;
     }
 }

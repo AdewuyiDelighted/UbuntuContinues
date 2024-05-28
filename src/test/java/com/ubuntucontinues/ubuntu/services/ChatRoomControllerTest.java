@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class ChatRoomServiceTest {
+class ChatRoomControllerTest {
 
     @Autowired
     private ChatRoomService chatRoomService;

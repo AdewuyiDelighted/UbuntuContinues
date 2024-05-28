@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
@@ -21,18 +22,20 @@ public class UbuntuScheduleSendNotificationService implements ScheduleSendNotifi
     private EmailService emailService;
     private PasswordGeneratorServices passwordGeneratorServices;
     private ModelMapper modelMapper;
-//    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
 
-    @Scheduled(cron = "*/2 * * * * *")
+//    @Scheduled(cron = "* */30 * * * *")
     public void scheduleTask() {
-//        setUserPassword(userService.getAllUnActivated());
-//        System.out.println(userService.getAllUnActivated());
+        List<Recipient> currentRecipient = new ArrayList<>();
 
-//        emailService.sendMessage(new Sender("delighteddeborah5@gmail.com", EMAIL_NAME),
-//                LOGIN_MESSAGE(passwordGeneratorServices.getPassword()),
-//                getUnActivatedUser(),
-//                LOGIN_SUBJECT
-//        );
+        for (Recipient recipient : getAllUnActivatedUser()) {
+            currentRecipient.add(recipient);
+            emailService.sendMessage(new Sender("delighteddeborah5@gmail.com", EMAIL_NAME),
+                    LOGIN_MESSAGE(recipient.getPassword()),
+                    currentRecipient,
+                    LOGIN_SUBJECT
+            );
+            currentRecipient.clear();
+        }
 
     }
 
@@ -41,10 +44,11 @@ public class UbuntuScheduleSendNotificationService implements ScheduleSendNotifi
     }
 
     private List<Recipient> getAllUnActivatedUser() {
-        List<User> unActivatedUser = userService.getAllUnActivated();
-
-        setUserPassword(unActivatedUser);
-        return null;
-
+        List<User> unactivatedUser = userService.getAllUnActivated();
+        setUserPassword(unactivatedUser);
+        return unactivatedUser
+                .stream()
+                .map(user -> modelMapper.map(user, Recipient.class))
+                .toList();
     }
 }

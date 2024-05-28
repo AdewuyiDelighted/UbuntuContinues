@@ -3,6 +3,7 @@ package com.ubuntucontinues.ubuntu.services;
 import com.ubuntucontinues.ubuntu.data.enums.Status;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.UserRepository;
+import com.ubuntucontinues.ubuntu.dto.requests.AddUserRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.DisconnectUserRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.LoginRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
@@ -27,6 +28,8 @@ public class UbuntuUserService implements UserService {
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
 
+
+
     public SaveUserResponse saveUser(SaveUserRequest saveUserRequest) {
         saveUserRequest.getUser().setStatus(Status.ONLINE);
         userRepository.save(saveUserRequest.getUser());
@@ -34,6 +37,7 @@ public class UbuntuUserService implements UserService {
         response.setUser(saveUserRequest.getUser());
         return response;
     }
+
 
     public DisconnectUserResponse disconnect(DisconnectUserRequest request) throws UserExistException {
         User foundUser = findBy(request.getUserId());

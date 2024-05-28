@@ -2,10 +2,7 @@ package com.ubuntucontinues.ubuntu.data.models;
 
 import com.ubuntucontinues.ubuntu.data.enums.AccountState;
 import com.ubuntucontinues.ubuntu.data.enums.Status;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -27,7 +24,7 @@ public class User {
     private String email;
     private Long cohortNumber;
     private String password;
-    private AccountState accountState=AccountState.NOT_ACTIVATED;
+    private AccountState accountState = AccountState.NOT_ACTIVATED;
     @DBRef
     private Cohort cohort;
     @DBRef
@@ -38,6 +35,14 @@ public class User {
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
+        this.password = password;
+    }
+
+
+    public User(String userName, String fullName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.fullName = fullName;
         this.password = password;
     }
 }

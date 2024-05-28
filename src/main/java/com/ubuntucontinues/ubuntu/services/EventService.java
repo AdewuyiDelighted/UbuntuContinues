@@ -15,11 +15,12 @@ import java.util.List;
 public interface EventService {
 
    UpdateEventResponse updateEvent(UpdateEventRequest request) throws EventExistException;
-   CreateEventResponse createPost(CreateEventRequest createEventRequest) throws EventAlreadyExistException;
+   CreateEventResponse createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException;
 
    FindAEventResponse findEvent(String eventId) throws EventDoesntExistException;
 
    List<FindAEventResponse> findAllEvent() throws EventDoesntExistException;
    DeleteEventResponse deleteEvent(String eventId) throws EventDoesntExistException;
+
 
 }

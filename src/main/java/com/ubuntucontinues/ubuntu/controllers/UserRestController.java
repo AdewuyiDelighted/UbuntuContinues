@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
+@RequestMapping("/ubuntu/user")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class UserRestController {
@@ -25,6 +27,7 @@ public class UserRestController {
 
     @PostMapping("/auth")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws InvalidDetailException {
+        System.out.println("i got here");
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 }
