@@ -1,7 +1,7 @@
 package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.dto.request.FindAllMessagesRequest;
-import com.ubuntucontinues.ubuntu.dto.request.SendMessageRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

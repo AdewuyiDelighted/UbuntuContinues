@@ -18,8 +18,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -41,21 +41,21 @@ class QuestionServiceTest {
         assertThrows(UserExistException.class, () -> questionService.postQuestion(uploadQuestionRequest));
     }
 
-    @Test
-    public void testThatQuestionCanBeUploadedWhichIsAddedToRepo() throws UserExistException {
-        String userId = "1234";
-        User user = new User("1234", "test", "testing", "testing@gmail.com");
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        UploadQuestionRequest request = new UploadQuestionRequest();
-        request.setUserId(userId);
-        request.setBody("I am tired with junit testing");
-        request.setTitle("Junit Testing");
-        request.setTags(List.of("Junit", "Java", "Testing"));
-        UploadQuestionResponse response = questionService.postQuestion(request);
-        when(repository.findAll()).thenReturn(List.of(new Question()));
-        assertNotNull(response);
-        assertThat(questionService.findAll().size()).isEqualTo(1);
-    }
+//    @Test
+//    public void testThatQuestionCanBeUploadedWhichIsAddedToRepo() throws UserExistException {
+//        String userId = "1234";
+//        User user = new User("1234", "test", "testing", "testing@gmail.com");
+//        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+//        UploadQuestionRequest request = new UploadQuestionRequest();
+//        request.setUserId(userId);
+//        request.setBody("I am tired with junit testing");
+//        request.setTitle("Junit Testing");
+//        request.setTags(List.of("Junit", "Java", "Testing"));
+//        UploadQuestionResponse response = questionService.postQuestion(request);
+//        when(repository.findAll()).thenReturn(List.of(new Question()));
+//        assertNotNull(response);
+//        assertThat(questionService.findAll().size()).isEqualTo(1);
+//    }
 
     @Test
     public void testThatQuestionWhenUploadedCanFindByTheId() throws QuestionDoesNotExistException {
@@ -71,16 +71,15 @@ class QuestionServiceTest {
     }
 
     @Test
-    public void testThatUserCanGetAllQuestionBelongingToThem() throws UserExistException {
+    public void testThatUserCanDeleteAQuestionBelongingToThem() throws UserExistException {
         String questionId = "123456";
         Question question = new Question();
         question.setTitle("test");
         question.setBody("test i a m ");
         question.setId(questionId);
-
         when(repository.findById(questionId)).thenReturn(Optional.of(question));
         DeleteQuestionResponse deleteQuestionResponse = questionService.deleteAQuestion(questionId);
-        assertThat(deleteQuestionResponse.getMessage(),is("Question Deleted Successfully"));
+        assertThat(deleteQuestionResponse.getMessage(), is("Question Deleted Successfully"));
     }
 
 

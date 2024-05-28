@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 public class EventServiceTest {
 
     @Autowired
-    private EventServices eventServices;
+    private EventService eventServices;
     @Autowired
     private EventRepository eventRepository;
     @MockBean

@@ -3,7 +3,7 @@ package com.ubuntucontinues.ubuntu.controllers;
 import com.ubuntucontinues.ubuntu.dto.requests.CreateEventRequest;
 import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
 import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
-import com.ubuntucontinues.ubuntu.services.EventServices;
+import com.ubuntucontinues.ubuntu.services.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class CommunityManagerController {
 
-    private final EventServices eventServices;
+    private final EventService eventServices;
 
     @PostMapping("/createEvent")
     public ResponseEntity<?> createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException {

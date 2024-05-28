@@ -1,5 +1,9 @@
 package com.ubuntucontinues.ubuntu.services;
 
+import com.ubuntucontinues.ubuntu.dto.requests.InitializeChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.CreateChatRoomResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
 import com.ubuntucontinues.ubuntu.data.models.ChatRoom;
 import com.ubuntucontinues.ubuntu.data.repositories.ChatRoomRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.InitializeChatRoomRequest;
@@ -9,7 +13,6 @@ import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Optional;
 
@@ -22,7 +25,7 @@ class ChatRoomControllerTest {
 
     @Autowired
     private ChatRoomService chatRoomService;
-    @MockBean
+//    @MockBean
     private ChatRoomRepository repository;
 
 

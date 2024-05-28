@@ -1,16 +1,19 @@
 package com.ubuntucontinues.ubuntu.dto.requests;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@ToString
 public class Recipient {
     private String email;
-    private String name;
+    private String fullName;
+    private String password;
+
 
     public Recipient(String recipient, String recipient1) {
         this.email = recipient;
-        this.name = recipient1;
+        this.fullName = recipient1;
     }
 }

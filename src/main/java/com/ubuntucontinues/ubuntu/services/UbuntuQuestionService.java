@@ -1,6 +1,11 @@
 package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.data.models.Question;
+import com.ubuntucontinues.ubuntu.data.repositories.QuestionRepository;
+import com.ubuntucontinues.ubuntu.exceptions.QuestionExistException;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import com.ubuntucontinues.ubuntu.data.models.Question;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.QuestionRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.UploadQuestionRequest;
@@ -21,17 +26,19 @@ import java.util.Optional;
 import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_NOT_EXIST;
 import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_UPLOADED_MESSAGE;
 
-@Service
+
 @Slf4j
-public class UbuntuQuestionService implements QuestionService {
-
-    @Autowired
-    private UserService userService;
-    @Autowired
+@Service
+@AllArgsConstructor
+public class UbuntuQuestionService implements QuestionService{
     private QuestionRepository questionRepository;
-    @Autowired
+    private UserService userService;
     private ModelMapper mapper;
-
+    @Override
+    public Question findBy(String questionId) throws QuestionExistException {
+        return questionRepository.findById(questionId)
+                .orElseThrow(()->new QuestionExistException("\"err\" :\"Not a valid question\""));
+    }
     @Override
     public UploadQuestionResponse postQuestion(UploadQuestionRequest uploadQuestionRequest) throws UserExistException {
         User user = userService.findBY(uploadQuestionRequest.getUserId());
@@ -44,8 +51,6 @@ public class UbuntuQuestionService implements QuestionService {
         UploadQuestionResponse response = mapper.map(newQuestion, UploadQuestionResponse.class);
         response.setMessage(QUESTION_UPLOADED_MESSAGE);
         response.setQuestionId(newQuestion.getId());
-        log.info("Question uploaded -> {}", response);
-        log.info("Question uploaded -> {}", savedQuestion);
         return response;
     }
 
@@ -56,14 +61,12 @@ public class UbuntuQuestionService implements QuestionService {
                 .map(question -> mapper.map(question, QuestionResponse.class))
                 .toList();
     }
-
     @Override
     public QuestionResponse findAQuestion(String questionId) throws QuestionDoesNotExistException {
         return mapper.map(questionRepository.findById(questionId)
-                        .orElseThrow(() -> new QuestionDoesNotExistException(QUESTION_NOT_EXIST)),
+                        .orElseThrow(() -> new QuestionDoesNotExistException(AppUtils.QUESTION_NOT_EXIST)),
                 QuestionResponse.class);
     }
-
     @Override
     public List<QuestionResponse> findAllByUser(String userId) throws UserExistException {
         return questionRepository.findAllByUser(userService.findBY(userId))
