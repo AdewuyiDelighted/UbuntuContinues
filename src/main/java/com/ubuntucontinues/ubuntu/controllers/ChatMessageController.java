@@ -1,7 +1,8 @@
 package com.ubuntucontinues.ubuntu.controllers;
 
 
-import com.ubuntucontinues.ubuntu.dto.request.FindAllMessagesRequest;
+
+import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
 import com.ubuntucontinues.ubuntu.services.ChatMessageService;
