@@ -71,7 +71,7 @@ public class AppUtils {
                 Thank you for joining our community!
                 <p/>
                 </body>
-                    """, LOGIN_LINK, password);
+                    """, LOGIN_LINK,password);
 
     }
 }

@@ -1,54 +1,40 @@
 package com.ubuntucontinues.ubuntu.controllers;
 
-import com.ubuntucontinues.ubuntu.dto.requests.AddStudentRequest;
-import com.ubuntucontinues.ubuntu.dto.requests.UpdateEventRequest;
-import com.ubuntucontinues.ubuntu.exceptions.EventExistException;
-import com.ubuntucontinues.ubuntu.services.CommunityManagerService;
-import com.ubuntucontinues.ubuntu.util.ApiResponse;
-import com.ubuntucontinues.ubuntu.util.GenerateApiResponse;
-import jakarta.validation.Valid;
+import com.ubuntucontinues.ubuntu.dto.requests.CreateEventRequest;
+import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
+import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
+import com.ubuntucontinues.ubuntu.services.EventService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/community_manager/")
+@RequestMapping("/app/communityManger")
 @AllArgsConstructor
 public class CommunityManagerController {
-   private final CommunityManagerService communityManagerService;
-    @PostMapping("saveUser")
-    public ResponseEntity<?> addStudent(@Valid @RequestBody AddStudentRequest request , BindingResult result){
-        ApiResponse errorMessage = getApiResponseResponseEntity(result);
-        if(errorMessage!=null) return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        return ResponseEntity.ok(communityManagerService.addStudent(request));
 
+    private final EventService eventServices;
 
+    @PostMapping("/createEvent")
+    public ResponseEntity<?> createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException {
+        return new ResponseEntity<>(eventServices.createEvent(createEventRequest), HttpStatus.CREATED);
     }
 
-    @PatchMapping("update_event")
-    public ResponseEntity<?> updateEvent( @Valid @RequestBody  UpdateEventRequest request, BindingResult result) throws EventExistException {
+    @GetMapping("/findEvent")
+    public ResponseEntity<?> findEvent(@RequestParam("eventId") String eventId) throws EventDoesntExistException {
+        return new ResponseEntity<>(eventServices.findEvent(eventId), HttpStatus.FOUND);
+    }
 
-        ApiResponse errorMessage = getApiResponseResponseEntity(result);
-        if(errorMessage!=null) return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        return ResponseEntity.ok(communityManagerService.updateEvent(request));
+    @GetMapping("/findAllEvent")
+    public ResponseEntity<?> findAllEvent() throws EventDoesntExistException {
+        return new ResponseEntity<>(eventServices.findAllEvent(), HttpStatus.FOUND);
+    }
+
+    @PostMapping("/deleteEvent")
+    public ResponseEntity<?> deleteEvent(@RequestParam("eventId") String eventId) throws EventDoesntExistException {
+        return new ResponseEntity<>(eventServices.deleteEvent(eventId), HttpStatus.OK);
     }
 
 
-    private ApiResponse getApiResponseResponseEntity(BindingResult result) {
-        if (result.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder("Validation error(s): ");
-            for (FieldError error : result.getFieldErrors()) {
-                errorMessage.append("Field '")
-                        .append(error.getField())
-                        .append("' ")
-                        .append(error.getDefaultMessage())
-                        .append("; ");
-            }
-            return GenerateApiResponse.validationError(errorMessage.toString());
-        }
-        return null;
-    }
 }
