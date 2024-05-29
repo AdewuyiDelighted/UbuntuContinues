@@ -2,6 +2,7 @@ package com.ubuntucontinues.ubuntu.services;
 
 
 import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
 
