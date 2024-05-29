@@ -1,5 +1,6 @@
 package com.ubuntucontinues.ubuntu.data.models;
 
+import com.ubuntucontinues.ubuntu.data.enums.RoomState;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,4 +16,6 @@ public class ChatRoom {
     private String chat_id;
     private String senderEmail;
     private String recipientEmail;
+    private RoomState status = RoomState.DEACTIVATED;
+
 }
