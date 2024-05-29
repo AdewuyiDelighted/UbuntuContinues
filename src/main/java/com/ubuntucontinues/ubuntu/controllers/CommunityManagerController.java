@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/app/communityManger")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class CommunityManagerController {
 
     private final EventService eventServices;
