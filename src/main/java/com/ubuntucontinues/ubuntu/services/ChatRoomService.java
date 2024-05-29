@@ -14,4 +14,6 @@ public interface ChatRoomService {
     List<ChatRoom> findAll();
     CreateChatRoomResponse createChatRoom(String token);
     Optional<String> getAChatRoomId(RetrieveChatRoomRequest request);
+
+    List<ChatRoom> findAllChatSenderChatRoom(String sender);
 }

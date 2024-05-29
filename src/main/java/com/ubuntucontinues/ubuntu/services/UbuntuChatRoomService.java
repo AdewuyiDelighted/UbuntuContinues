@@ -9,11 +9,6 @@ import com.ubuntucontinues.ubuntu.dto.requests.Sender;
 import com.ubuntucontinues.ubuntu.dto.responses.CreateChatRoomResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.DecodeChatRoomResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
-import com.ubuntucontinues.ubuntu.dto.requests.InitializeChatRoomRequest;
-import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
-import com.ubuntucontinues.ubuntu.dto.responses.CreateChatRoomResponse;
-import com.ubuntucontinues.ubuntu.dto.responses.DecodeChatRoomResponse;
-import com.ubuntucontinues.ubuntu.dto.responses.InitializeChatRoomResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,6 +73,11 @@ public class UbuntuChatRoomService implements ChatRoomService{
                 .or(Optional::empty);
     }
 
+    @Override
+    public List<ChatRoom> findAllChatSenderChatRoom(String sender) {
+        return chatRoomRepository.findChatRoomBySenderEmailOrRecipientEmail(sender,sender);
+    }
+
     private ChatRoom mapChatRoom(String sender, String recipient){
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.setChat_id(String.format(sender+"_"+recipient));
@@ -85,4 +85,5 @@ public class UbuntuChatRoomService implements ChatRoomService{
         chatRoom.setRecipientEmail(recipient);
         return chatRoom;
     }
+
 }
