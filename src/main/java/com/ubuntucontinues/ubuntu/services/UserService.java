@@ -1,7 +1,6 @@
 package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.data.models.User;
-import com.ubuntucontinues.ubuntu.dto.requests.AddUserRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.DisconnectUserRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.LoginRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
@@ -26,4 +25,8 @@ public interface UserService {
     User findBy(String userId) throws UserExistException;
 
     void setLoginPassword(User user,String password);
+
+    void saveAll(List<User> members);
+
+    void checkUserExistByEmail(String email) throws UserExistException;
 }
