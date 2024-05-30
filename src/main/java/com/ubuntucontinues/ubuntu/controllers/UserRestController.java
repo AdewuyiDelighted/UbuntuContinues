@@ -6,13 +6,10 @@ import com.ubuntucontinues.ubuntu.dto.responses.LoginResponse;
 import com.ubuntucontinues.ubuntu.exceptions.InvalidDetailException;
 import com.ubuntucontinues.ubuntu.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/ubuntu/user")
@@ -27,7 +24,12 @@ public class UserRestController {
 
     @PostMapping("/auth")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws InvalidDetailException {
-        System.out.println("i got here");
         return ResponseEntity.ok(userService.login(loginRequest));
     }
+
+    @GetMapping("/cohort/{cohortNumber}")
+    public ResponseEntity<?> getAllMemberInACohort(@PathVariable String cohortNumber){
+        return new ResponseEntity<>(userService.findAllMemberInACohort(cohortNumber), HttpStatus.OK);
+    }
+
 }

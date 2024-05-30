@@ -29,7 +29,7 @@ public class CohortController {
 
     @GetMapping("/findAllCohort")
     public ResponseEntity<?> findCohort() throws CohortNotExistException {
-        return new ResponseEntity<>(cohortService.findAllCohort(), HttpStatus.FOUND);
+        return new ResponseEntity<>(cohortService.findAllCohort(), HttpStatus.OK);
     }
 
 }
