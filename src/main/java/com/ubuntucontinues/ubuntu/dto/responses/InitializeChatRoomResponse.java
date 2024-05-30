@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class InitializeChatRoomResponse {
     private String message;
+    private boolean activated;
 }

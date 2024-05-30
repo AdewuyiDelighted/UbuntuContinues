@@ -33,6 +33,8 @@ public class AppUtils {
     public static final String COMMENT_SAVED_RESPONSE = "Comment Added Successfully";
     public static final String LIKED_POST_RESPONSE = "Post has been liked";
     public static final String MEMBERS_ADDED_SUCCESSFULLY = "Members has been added Successfully";
+    public static final String CHATROOM_CREATED_MESSAGE = "Chat room created Successfully";
+    public static final String ACTIVATE_CHAT = "Chat room has been activated";
 
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {
