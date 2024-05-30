@@ -6,8 +6,6 @@ import com.ubuntucontinues.ubuntu.services.ChatMessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 public class ChatMessageController {
     private ChatMessageService chatMessageService;
-
-    @MessageMapping("/message")
-    public void sendMessage(@Payload SendMessageRequest sendMessageRequest) {
-        SendMessageResponse sendMessageResponse = chatMessageService.saveMessage(sendMessageRequest);
-    }
 
     @GetMapping("/getAllMessages")
     public ResponseEntity<?> getRecentChats(String senderId) {
