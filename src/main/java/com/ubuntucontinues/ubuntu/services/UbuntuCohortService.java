@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,7 +62,7 @@ public class UbuntuCohortService implements CohortService {
             return cohorts.stream()
                     .map(cohort -> modelMapper.map(cohort, FindCohortResponse.class))
                     .toList();
-        throw new CohortNotExistException(NO_COHORT_AVAILABLE);
+        return new ArrayList<>();
     }
 
     @Override

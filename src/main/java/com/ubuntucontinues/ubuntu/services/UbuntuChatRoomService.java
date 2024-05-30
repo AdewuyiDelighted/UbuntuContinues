@@ -104,6 +104,11 @@ public class UbuntuChatRoomService implements ChatRoomService{
         return response;
     }
 
+    @Override
+    public List<ChatRoom> findAllChatSenderChatRoom(String sender) {
+        return chatRoomRepository.findChatRoomBySenderEmailOrRecipientEmail(sender,sender);
+    }
+
     private ChatRoom mapChatRoom(String sender, String recipient){
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.setChat_id(String.format(sender+"_"+recipient));
@@ -111,4 +116,5 @@ public class UbuntuChatRoomService implements ChatRoomService{
         chatRoom.setRecipientEmail(recipient);
         return chatRoom;
     }
+
 }

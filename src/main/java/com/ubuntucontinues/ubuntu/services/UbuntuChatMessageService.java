@@ -1,15 +1,18 @@
 package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.data.models.ChatMessage;
+import com.ubuntucontinues.ubuntu.data.models.ChatRoom;
 import com.ubuntucontinues.ubuntu.data.repositories.ChatMessageRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
-import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.RecentChats;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +56,48 @@ public class UbuntuChatMessageService implements ChatMessageService {
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
         return chatMessageRepository.findByChatMessageId(chatId.get())
                 .stream()
-                .map(chatMessage -> modelMapper.map(chatMessage,SendMessageResponse.class))
+                .map(chatMessage -> modelMapper.map(chatMessage, SendMessageResponse.class))
                 .toList();
 
+    }
+
+    @Override
+    public List<RecentChats> findRecentlyChats(String senderEmail) {
+        List<ChatRoom> chatRooms = ubuntuChatRoomService.findAllChatSenderChatRoom(senderEmail);
+        if (!chatRooms.isEmpty()) {
+            return getRecentChatEmails(senderEmail, chatRooms);
+        }
+        return new ArrayList<>();
+    }
+
+    private List<String> senderChatRooms(List<ChatRoom> chatRooms) {
+        System.out.println("chatroom size " + chatRooms.size());
+        return chatRooms.stream()
+                .map(ChatRoom::getChat_id)
+                .toList();
+    }
+
+    private List<RecentChats> getRecentChatEmails(String senderEmail, List<ChatRoom> chatRooms) {
+        List<String> chatIds = senderChatRooms(chatRooms);
+
+        List<RecentChats> recentChats = new ArrayList<>();
+        String[] splitChatId;
+        int count = 0;
+
+        for (String chatId : chatIds) {
+
+            splitChatId = chatId.split("_");
+
+            while (count != 2) {
+                if (!splitChatId[count].equals(senderEmail)) {
+                    RecentChats newRecentChat = new RecentChats();
+                    newRecentChat.setRecipientEmail(splitChatId[count]);
+                    recentChats.add(newRecentChat);
+                }
+                count++;
+            }
+            count = 0;
+        }
+        return recentChats;
     }
 }

@@ -18,7 +18,7 @@ public class CohortController {
 
     @PostMapping("/createCohort")
     public ResponseEntity<?> createCohort(@RequestBody CreateCohortRequest createCohortRequest) throws CohortAlreadyExistException {
-        return ResponseEntity.status(201).body(cohortService.createCohort(createCohortRequest));
+        return ResponseEntity.status(200).body(cohortService.createCohort(createCohortRequest));
 
     }
 
