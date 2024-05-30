@@ -3,15 +3,11 @@ package com.ubuntucontinues.ubuntu.services;
 import com.ubuntucontinues.ubuntu.data.models.ChatMessage;
 import com.ubuntucontinues.ubuntu.data.models.ChatRoom;
 import com.ubuntucontinues.ubuntu.data.repositories.ChatMessageRepository;
-
 import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
-import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
-import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.RetrieveChatRoomRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
-import com.ubuntucontinues.ubuntu.dto.response.SendMessageResponse;
-import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.RecentChats;
+import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
