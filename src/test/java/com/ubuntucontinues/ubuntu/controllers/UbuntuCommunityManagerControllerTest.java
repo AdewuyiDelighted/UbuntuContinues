@@ -3,8 +3,10 @@ package com.ubuntucontinues.ubuntu.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.dto.requests.AddStudentRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.StudentRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.AddStudentResponse;
 import com.ubuntucontinues.ubuntu.services.CommunityManagerService;
+import com.ubuntucontinues.ubuntu.util.AppUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,6 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -37,14 +41,15 @@ public class UbuntuCommunityManagerControllerTest {
     void testAddStudentSuccess() throws Exception {
         AddStudentRequest request = new AddStudentRequest();
         request.setCohortNumber(2L);
-        request.setFullName("Norah Joy");
-        request.setEmail("norah1@gmail.com");
+        StudentRequest request1 = new StudentRequest();
+        request1.setEmail("Ola@gmail.com");
+        request1.setFullName("Ola aina");
+        request.setMembers(List.of(request1));
         User user = new User();
-        user.setEmail(request.getEmail());
-        user.setCohortNumber(request.getCohortNumber());
-        user.setFullName(request.getFullName());
+        user.setEmail(request.getMembers().getFirst().getEmail());
+        user.setFullName(request.getMembers().getFirst().getFullName());
         AddStudentResponse response = new AddStudentResponse();
-        response.setUser(user);
+        response.setMessage(AppUtils.MEMBERS_ADDED_SUCCESSFULLY);
 
         when(communityManagerService.addStudent(any(AddStudentRequest.class))).thenReturn(response);
 

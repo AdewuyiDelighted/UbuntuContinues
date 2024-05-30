@@ -3,7 +3,6 @@ package com.ubuntucontinues.ubuntu.services;
 import com.ubuntucontinues.ubuntu.data.enums.Status;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.UserRepository;
-import com.ubuntucontinues.ubuntu.dto.requests.AddUserRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.DisconnectUserRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.LoginRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
@@ -84,6 +83,16 @@ public class UbuntuUserService implements UserService {
         foundUser.get().setPassword(password);
         userRepository.save(foundUser.get());
 
+    }
+
+    @Override
+    public void saveAll(List<User> members) {
+        userRepository.saveAll(members);
+    }
+
+    @Override
+    public void checkUserExistByEmail(String email) throws UserExistException {
+        if (userRepository.findUserByEmail(email).isPresent()) throw new UserExistException(USER_NOT_EXIST);
     }
 
     @Override

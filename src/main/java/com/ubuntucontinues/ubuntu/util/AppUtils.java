@@ -26,6 +26,15 @@ public class AppUtils {
 
     public static final String LOGIN_LINK = "http://localhost:3000/login";
     public static final String EMAIL_NAME = "UBUNTU CONTINUES";
+    public static final String CREATE_POST_RESPONSE = "Post Created successfully";
+    public static final String DELETE_POST_MESSAGE = "Post has been deleted";
+    public static final String POST_NOT_EXIST = "Post does not exist";
+    public static final String UPDATE_POST_RESPONSE = "Post updated Successfully";
+    public static final String COMMENT_SAVED_RESPONSE = "Comment Added Successfully";
+    public static final String LIKED_POST_RESPONSE = "Post has been liked";
+    public static final String MEMBERS_ADDED_SUCCESSFULLY = "Members has been added Successfully";
+    public static final String CHATROOM_CREATED_MESSAGE = "Chat room created Successfully";
+    public static final String ACTIVATE_CHAT = "Chat room has been activated";
 
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {

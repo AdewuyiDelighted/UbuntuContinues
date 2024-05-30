@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateChatRoomResponse {
-    private String sender_recipient_id;
+public class DeletePostResponse {
     private String message;
 }
