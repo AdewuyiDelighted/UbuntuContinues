@@ -25,6 +25,7 @@ public class UbuntuChatMessageService implements ChatMessageService {
 
     @Override
     public SendMessageResponse saveMessage(SendMessageRequest sendMessageRequest) {
+        System.out.println("Hello everyone");
         RetrieveChatRoomRequest retrieveChatRoomRequest = new RetrieveChatRoomRequest();
         retrieveChatRoomRequest.setSender(sendMessageRequest.getSendId());
         retrieveChatRoomRequest.setRecipient(sendMessageRequest.getRecipientId());
@@ -36,11 +37,12 @@ public class UbuntuChatMessageService implements ChatMessageService {
                 .recipientId(sendMessageRequest.getRecipientId())
                 .content(sendMessageRequest.getContent())
                 .build();
-        chatMessageRepository.save(chatMessage);
-
+        ChatMessage message = chatMessageRepository.save(chatMessage);
+        System.out.println(message);
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setSendId(chatMessage.getSendId());
         sendMessageResponse.setRecipientId(chatMessage.getRecipientId());
+        sendMessageResponse.setRoomId(chatId.get());
         sendMessageResponse.setMessage("Message Sent Successfully");
         return sendMessageResponse;
 
@@ -64,6 +66,7 @@ public class UbuntuChatMessageService implements ChatMessageService {
     @Override
     public List<RecentChats> findRecentlyChats(String senderEmail) {
         List<ChatRoom> chatRooms = ubuntuChatRoomService.findAllChatSenderChatRoom(senderEmail);
+
         if (!chatRooms.isEmpty()) {
             return getRecentChatEmails(senderEmail, chatRooms);
         }

@@ -6,11 +6,14 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.ubuntucontinues.ubuntu.data.models.ChatMessage;
+import com.ubuntucontinues.ubuntu.services.SocketService;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -19,12 +22,14 @@ public class SocketIoConfig {
     private String socketHost;
     @Value("${socket.port}")
     private int socketPort;
+    private SocketService socketService;
     private SocketIOServer server;
     @Bean
-    public SocketIOServer socketIOServer(){
+    public SocketIOServer socketIOServer(SocketService socketService){
         Configuration configuration = new Configuration();
         configuration.setPort(socketPort);
         configuration.setHostname(socketHost);
+        this.socketService = socketService;
         this.server = new SocketIOServer(configuration);
         server.start();
         server.addConnectListener(onConnected());
@@ -36,7 +41,7 @@ public class SocketIoConfig {
     private DataListener<ChatMessage> onMessage() {
         return (socketIOClient, message, ackSender) -> {
             log.info(message.toString());
-
+            socketService.saveSocketMessage(socketIOClient, message);
         };
     }
 
@@ -55,6 +60,11 @@ public class SocketIoConfig {
     public ConnectListener onConnected(){
         return (socketIOClient) ->{
             log.info("Connected user with session id of "+ socketIOClient.getSessionId().toString());
+            var params = socketIOClient.getHandshakeData().getUrlParams();
+            String room = params.get("rooms").stream().collect(Collectors.joining());
+            String username = params.get("username").stream().collect(Collectors.joining());
+            socketIOClient.joinRoom(room);
+            log.info("Socket ID[{}] - room[{}] - username [{}]  Connected to chat module through", socketIOClient.getSessionId().toString(), room, username);
         };
     }
 

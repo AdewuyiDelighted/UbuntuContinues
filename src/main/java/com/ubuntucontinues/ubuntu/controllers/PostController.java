@@ -50,4 +50,5 @@ public class PostController {
         return new ResponseEntity<>(postService.likePost(postId), HttpStatus.ACCEPTED);
     }
 
+
 }
