@@ -4,6 +4,7 @@ import com.ubuntucontinues.ubuntu.data.models.Post;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.PostRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreatePostRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.GetAllPostResponse;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
 import com.ubuntucontinues.ubuntu.exceptions.PostNotExistException;
@@ -87,11 +88,18 @@ public class UbuntuPostService implements PostService{
     @Override
     public LikePostResponse likePost(String postId) throws PostNotExistException {
         Post post = findPostById(postId);
-        post.setNumberOfLike(post.getNumberOfLike() + 1L);
+        post.setNumberOfLikes(post.getNumberOfLikes() + 1L);
         Post savedPost = repository.save(post);
         LikePostResponse response = new LikePostResponse();
         response.setMessage(AppUtils.LIKED_POST_RESPONSE);
         response.setPostId(savedPost.getId());
+        return response;
+    }
+
+    @Override
+    public GetAllPostResponse getAllPost() {
+        GetAllPostResponse response = new GetAllPostResponse();
+        response.setPosts(repository.findAll().stream().toList());
         return response;
     }
 
