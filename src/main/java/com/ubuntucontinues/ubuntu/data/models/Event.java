@@ -5,9 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -19,8 +18,9 @@ public class Event {
     private String description;
     @JsonIgnore
     private LocalDateTime dateCreated = LocalDateTime.now();
-   @JsonIgnore
-   private LocalDateTime eventDate;
-    private List<String> eventImage;
-   }
+    @JsonIgnore
+    private LocalDate eventDate;
+    private String eventImage;
+
+}
 

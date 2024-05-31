@@ -11,7 +11,7 @@ import java.util.List;
 public class CreateEventResponse {
     private String title;
     private String description;
-    private List<String> eventImage;
+    private String eventImage;
     private LocalDateTime eventDate;
     private LocalDateTime dateCreated;
     private String message;
