@@ -20,7 +20,7 @@ public class TheUbuntuEventService {
    public Event saveEntity (){
        Event event = Event.builder().build();
        event.setId("12");
-       event.setEventDate(LocalDateTime.parse("2024-05-23T15:30:45"));
+//       event.setEventDate(LocalDateTime.parse("2024-05-23T15:30:45"));
        event.setDescription("A hangout party");
        event.setTitle("Hangout");
        repository.save(event);

@@ -51,4 +51,8 @@ public class PostController {
     }
 
 
+    @GetMapping("/all_post")
+    public ResponseEntity<?> getAllPost(){
+        return new ResponseEntity<>(postService.getAllPost(),HttpStatus.OK);
+    }
 }

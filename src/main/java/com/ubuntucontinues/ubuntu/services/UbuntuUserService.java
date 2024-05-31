@@ -9,6 +9,7 @@ import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
 import com.ubuntucontinues.ubuntu.exceptions.InvalidDetailException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
+import com.ubuntucontinues.ubuntu.util.AppUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -92,7 +93,7 @@ public class UbuntuUserService implements UserService {
 
     @Override
     public void checkUserExistByEmail(String email) throws UserExistException {
-        if (userRepository.findUserByEmail(email).isPresent()) throw new UserExistException(USER_NOT_EXIST);
+        if (userRepository.findUserByEmail(email).isPresent()) throw new UserExistException(USER_EXIST);
     }
 
     @Override
@@ -117,6 +118,7 @@ public class UbuntuUserService implements UserService {
     public LoginResponse login(LoginRequest loginRequest) throws InvalidDetailException {
         User user = userRepository.findUserByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
+        System.out.println(user);
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
         String token = jwtService.createToken(user.getId(), user.getEmail());
         LoginResponse response = new LoginResponse();

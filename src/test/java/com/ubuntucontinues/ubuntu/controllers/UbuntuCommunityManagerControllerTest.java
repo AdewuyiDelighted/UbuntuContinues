@@ -40,7 +40,7 @@ public class UbuntuCommunityManagerControllerTest {
     @Test
     void testAddStudentSuccess() throws Exception {
         AddStudentRequest request = new AddStudentRequest();
-        request.setCohortNumber(2L);
+        request.setCohortNumber("2");
         StudentRequest request1 = new StudentRequest();
         request1.setEmail("Ola@gmail.com");
         request1.setFullName("Ola aina");

@@ -17,5 +17,5 @@ public class Post {
     private String image;
     @DBRef
     private User user;
-    private Long numberOfLike = 0L;
+    private Long numberOfLikes = 0L;
 }

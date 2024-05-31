@@ -9,13 +9,15 @@ import com.ubuntucontinues.ubuntu.dto.responses.UpdateEventResponse;
 import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
 import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
 import com.ubuntucontinues.ubuntu.exceptions.EventExistException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
-public interface EventService {
+public interface  EventService {
 
    UpdateEventResponse updateEvent(UpdateEventRequest request) throws EventExistException;
-   CreateEventResponse createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException;
+   CreateEventResponse createEvent(CreateEventRequest createEventRequest, MultipartFile file) throws EventAlreadyExistException, IOException;
 
    FindAEventResponse findEvent(String eventId) throws EventDoesntExistException;
 
