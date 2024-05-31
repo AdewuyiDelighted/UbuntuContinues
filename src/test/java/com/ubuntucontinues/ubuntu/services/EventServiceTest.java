@@ -1,5 +1,7 @@
 package com.ubuntucontinues.ubuntu.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubuntucontinues.ubuntu.data.models.Event;
 import com.ubuntucontinues.ubuntu.data.repositories.EventRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreateEventRequest;
@@ -12,7 +14,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -32,14 +41,17 @@ public class EventServiceTest {
     private EventRepository testRepo;
 
     @Test
-    public void thatEventCanBeCreatedAndPosted() throws EventAlreadyExistException {
+    public void thatEventCanBeCreatedAndPosted() throws EventAlreadyExistException, IOException {
 
         CreateEventRequest createEventRequest = new CreateEventRequest();
         createEventRequest.setTitle("May Community Hangout 2024");
         createEventRequest.setDescription("A event to bring all the community members together to have fun ");
-        createEventRequest.setEventDate(LocalDateTime.of(2024, 5, 24, 4, 0, 0));
-
-        CreateEventResponse createEventResponse = eventServices.createEvent(createEventRequest);
+//        createEventRequest.setEventDate(LocalDateTime.of(2024, 5, 24, 4, 0, 0));
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("/home/user/Pictures/mmov.jpg");
+        FileInputStream inputStream = new FileInputStream(file);
+        MultipartFile multipartFile = new MockMultipartFile("filename",inputStream);
+        CreateEventResponse createEventResponse = eventServices.createEvent(createEventRequest, multipartFile);
         assertThat(createEventResponse.getMessage(), is("Event Created Successfully"));
         assertEquals(1, eventRepository.count());
 
@@ -51,14 +63,16 @@ public class EventServiceTest {
         FindAEventResponse findAEventResponse = eventServices.findEvent(eventId);
         assertThat(findAEventResponse.getTitle(), is("May Community Hangout 2024"));
     }
-    @Test public void testWeCanFindAllEventCreated() throws EventDoesntExistException {
-        assertEquals(1,eventServices.findAllEvent().size());
+
+    @Test
+    public void testWeCanFindAllEventCreated() throws EventDoesntExistException {
+        assertEquals(1, eventServices.findAllEvent().size());
 
     }
 
     @Test
     public void testThatEventCanBeRemovedByTheId() throws EventDoesntExistException {
-        String eventId =  "664f4d6ea856782be9913e1e";
+        String eventId = "664f4d6ea856782be9913e1e";
 
         Event event = Event.builder().build();
 
@@ -70,6 +84,6 @@ public class EventServiceTest {
 
         assertNotNull(response);
 
-        assertThrows(EventDoesntExistException.class, ()-> eventServices.findEvent(eventId));
+        assertThrows(EventDoesntExistException.class, () -> eventServices.findEvent(eventId));
     }
 }

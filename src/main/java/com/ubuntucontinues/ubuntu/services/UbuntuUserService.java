@@ -110,6 +110,7 @@ public class UbuntuUserService implements UserService {
     public LoginResponse login(LoginRequest loginRequest) throws InvalidDetailException {
         User user = userRepository.findUserByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
+        System.out.println(user);
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
         String token = jwtService.createToken(user.getId(), user.getEmail());
         LoginResponse response = new LoginResponse();
