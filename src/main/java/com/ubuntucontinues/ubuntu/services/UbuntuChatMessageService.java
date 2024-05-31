@@ -21,7 +21,6 @@ import java.util.Optional;
 public class UbuntuChatMessageService implements ChatMessageService {
     private final UbuntuChatRoomService ubuntuChatRoomService;
     private final ChatMessageRepository chatMessageRepository;
-    private ModelMapper modelMapper;
 
     @Override
     public SendMessageResponse saveMessage(SendMessageRequest sendMessageRequest) {
@@ -30,17 +29,13 @@ public class UbuntuChatMessageService implements ChatMessageService {
         retrieveChatRoomRequest.setRecipient(sendMessageRequest.getRecipientId());
 
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
-        ChatMessage chatMessage = ChatMessage.builder()
-                .chatMessageId(chatId.get())
-                .sendId(sendMessageRequest.getSendId())
-                .recipientId(sendMessageRequest.getRecipientId())
-                .content(sendMessageRequest.getContent())
-                .build();
-        chatMessageRepository.save(chatMessage);
-
+        ChatMessage chatMessage = new ChatMessage(chatId.get(), sendMessageRequest.getSendId(),
+                sendMessageRequest.getRecipientId(), sendMessageRequest.getContent());
+        ChatMessage message = chatMessageRepository.save(chatMessage);
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setSendId(chatMessage.getSendId());
         sendMessageResponse.setRecipientId(chatMessage.getRecipientId());
+        sendMessageResponse.setRoomId(chatId.get());
         sendMessageResponse.setMessage("Message Sent Successfully");
         return sendMessageResponse;
 
@@ -56,14 +51,14 @@ public class UbuntuChatMessageService implements ChatMessageService {
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
         return chatMessageRepository.findByChatMessageId(chatId.get())
                 .stream()
-                .map(chatMessage -> modelMapper.map(chatMessage, SendMessageResponse.class))
+                .map(SendMessageResponse::new)
                 .toList();
-
     }
 
     @Override
     public List<RecentChats> findRecentlyChats(String senderEmail) {
         List<ChatRoom> chatRooms = ubuntuChatRoomService.findAllChatSenderChatRoom(senderEmail);
+
         if (!chatRooms.isEmpty()) {
             return getRecentChatEmails(senderEmail, chatRooms);
         }

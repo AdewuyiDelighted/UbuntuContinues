@@ -97,6 +97,13 @@ public class UbuntuUserService implements UserService {
     }
 
     @Override
+    public List<UserResponse> findAllMemberInACohort(String cohortNumber) {
+        return userRepository.findUsersByCohort_CohortNumber(cohortNumber)
+                .stream()
+                .map(user -> modelMapper.map(user, UserResponse.class)).toList();
+    }
+
+    @Override
     public User findBY(String userName) throws UserExistException {
         return userRepository.findById(userName)
                 .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\""));

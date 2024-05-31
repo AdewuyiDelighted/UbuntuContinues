@@ -29,4 +29,5 @@ public interface UserService {
     void saveAll(List<User> members);
 
     void checkUserExistByEmail(String email) throws UserExistException;
+    List<UserResponse> findAllMemberInACohort(String cohortNumber);
 }
