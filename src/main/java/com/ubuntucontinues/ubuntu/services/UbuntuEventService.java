@@ -25,8 +25,11 @@ import com.ubuntucontinues.ubuntu.dto.responses.FindAEventResponse;
 import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
 import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
 import com.ubuntucontinues.ubuntu.util.AppUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,18 +43,22 @@ import static java.util.Arrays.stream;
 @AllArgsConstructor
 public class UbuntuEventService implements EventService {
     private EventRepository eventRepository;
+    private CloudinaryService cloudinaryService;
     private ModelMapper modelMapper;
 
     @Override
-    public CreateEventResponse createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException {
+    public CreateEventResponse createEvent(CreateEventRequest createEventRequest, MultipartFile file) throws EventAlreadyExistException, IOException {
         Optional<Event> foundEvent = eventExist(createEventRequest.getTitle());
-
+        String url = "";
         if (foundEvent.isEmpty()) {
+            if (file != null) {
+                 url = cloudinaryService.uploadImage(file).getImageUrl();
+            }
             Event event = Event.builder()
                     .title(createEventRequest.getTitle())
                     .description(createEventRequest.getDescription())
-                    .eventDate(createEventRequest.getEventDate())
-                    .eventImage(createEventRequest.getEventImage())
+                    .eventDate(LocalDate.parse(createEventRequest.getEventDate()))
+                    .eventImage(url)
                     .dateCreated(LocalDateTime.now())
                     .build();
             eventRepository.save(event);

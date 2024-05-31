@@ -13,6 +13,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/community_manager")
@@ -23,10 +26,9 @@ public class CommunityManagerController {
     private final EventService eventServices;
 
     @PostMapping("/createEvent")
-    public ResponseEntity<?> createEvent(CreateEventRequest createEventRequest) throws EventAlreadyExistException {
-        return new ResponseEntity<>(eventServices.createEvent(createEventRequest), HttpStatus.CREATED);
+    public ResponseEntity<?> createEvent(@RequestPart(value = "image" ,required = false) MultipartFile file, @ModelAttribute CreateEventRequest createEventRequest) throws EventAlreadyExistException, IOException {
+        return new ResponseEntity<>(eventServices.createEvent(createEventRequest,file), HttpStatus.OK);
     }
-
     @GetMapping("/findEvent")
     public ResponseEntity<?> findEvent(@RequestParam("eventId") String eventId) throws EventDoesntExistException {
         return new ResponseEntity<>(eventServices.findEvent(eventId), HttpStatus.FOUND);
@@ -34,7 +36,7 @@ public class CommunityManagerController {
 
     @GetMapping("/findAllEvent")
     public ResponseEntity<?> findAllEvent() throws EventDoesntExistException {
-        return new ResponseEntity<>(eventServices.findAllEvent(), HttpStatus.FOUND);
+        return new ResponseEntity<>(eventServices.findAllEvent(), HttpStatus.OK);
     }
 
     @PostMapping("/deleteEvent")
