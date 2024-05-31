@@ -21,7 +21,6 @@ import java.util.Optional;
 public class UbuntuChatMessageService implements ChatMessageService {
     private final UbuntuChatRoomService ubuntuChatRoomService;
     private final ChatMessageRepository chatMessageRepository;
-    private ModelMapper modelMapper;
 
     @Override
     public SendMessageResponse saveMessage(SendMessageRequest sendMessageRequest) {
@@ -33,7 +32,6 @@ public class UbuntuChatMessageService implements ChatMessageService {
         ChatMessage chatMessage = new ChatMessage(chatId.get(), sendMessageRequest.getSendId(),
                 sendMessageRequest.getRecipientId(), sendMessageRequest.getContent());
         ChatMessage message = chatMessageRepository.save(chatMessage);
-        System.out.println(message);
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setSendId(chatMessage.getSendId());
         sendMessageResponse.setRecipientId(chatMessage.getRecipientId());
