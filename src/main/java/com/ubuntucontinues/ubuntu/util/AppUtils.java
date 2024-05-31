@@ -7,7 +7,7 @@ public class AppUtils {
     public static final String NEW_COHORT_MESSAGE = "Cohort Registered Successfully";
     public static final String COHORT_DOESNT_EXIST = "Cohort With Submitted Credentials Doesn't Exist";
     public static final String COHORT_ALREADY_EXIST = "Cohort With Submitted Credentials Already Exist";
-    public static final String NO_COHORT_AVAILABLE = "No Cohort Available";
+    public static final String NO_COHORT_AVAILABLE = "\"\"err\"No Cohort Available\"";
     public static final String NEW_EVENT_MESSAGE = "Event Created Successfully";
     public static final String EVENT_ALREADY_EXIST = "Event Already Existed";
     public static final String EVENT_DOESNT_EXIST = "Event Doesn't Exist";
@@ -17,7 +17,7 @@ public class AppUtils {
     public static final String CHARACTER = "!@#$%^&*";
     public static final String DROP_DOWN_MESSAGE = "User with following id %s does not exist";
     public static final String DELETE_EVENT_MESSAGE = "Event has been deleted";
-    public static final String USER_NOT_EXIST = "User does not Exist";
+    public static final String USER_EXIST = "\"\"err\"User Already Exist\"";
     public static final String QUESTION_UPLOADED_MESSAGE = "Question Uploaded Successfully";
     public static final String QUESTION_NOT_EXIST = "Question does not Exist";
     public static final String INITIALIZE_REQUEST_MESSAGE = "Request has been sent to the sender to activate chat";

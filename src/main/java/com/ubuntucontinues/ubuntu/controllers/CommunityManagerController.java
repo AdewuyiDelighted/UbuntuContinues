@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/app/communityManger")
+@RequestMapping("/api/v1/community_manager")
 @AllArgsConstructor
 @CrossOrigin("*")
 public class CommunityManagerController {
@@ -44,7 +44,7 @@ public class CommunityManagerController {
         return new ResponseEntity<>(eventServices.deleteEvent(eventId), HttpStatus.OK);
     }
 
-    @PostMapping("/student")
+    @PostMapping("/add_student")
     public ResponseEntity<?> addStudent(@RequestBody AddStudentRequest request) throws UserExistException {
         return new ResponseEntity<>(managerService.addStudent(request), HttpStatus.ACCEPTED);
     }

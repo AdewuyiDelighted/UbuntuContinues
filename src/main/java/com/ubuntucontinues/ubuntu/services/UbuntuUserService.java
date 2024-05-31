@@ -9,6 +9,7 @@ import com.ubuntucontinues.ubuntu.dto.requests.SaveUserRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
 import com.ubuntucontinues.ubuntu.exceptions.InvalidDetailException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
+import com.ubuntucontinues.ubuntu.util.AppUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -92,7 +93,7 @@ public class UbuntuUserService implements UserService {
 
     @Override
     public void checkUserExistByEmail(String email) throws UserExistException {
-        if (userRepository.findUserByEmail(email).isPresent()) throw new UserExistException(USER_NOT_EXIST);
+        if (userRepository.findUserByEmail(email).isPresent()) throw new UserExistException(USER_EXIST);
     }
 
     @Override
