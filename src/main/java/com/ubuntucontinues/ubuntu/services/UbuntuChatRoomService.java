@@ -36,6 +36,7 @@ public class UbuntuChatRoomService implements ChatRoomService{
     public InitializeChatRoomResponse initializeChatRoom(InitializeChatRoomRequest request) {
         InitializeChatRoomResponse response = new InitializeChatRoomResponse();
         ChatRoom room = getAChatRoom(new RetrieveChatRoomRequest(request.getSender_email(), request.getRecipient_email()));
+        System.out.println(room);
         if (room == null){
             sendFriendRequestAndCreateChatRoom(request, response);
         } else if (room.getStatus().equals(RoomState.DEACTIVATED)) {
@@ -63,6 +64,7 @@ public class UbuntuChatRoomService implements ChatRoomService{
     private ChatRoom getAChatRoom(RetrieveChatRoomRequest retrieveChatRoomRequest) {
         ChatRoom chatRoom = chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(retrieveChatRoomRequest.getSender(), retrieveChatRoomRequest.getRecipient())
                 .orElse(null);
+        System.out.println(chatRoom);
         if(chatRoom != null) return chatRoom;
        return chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(retrieveChatRoomRequest.getRecipient(), retrieveChatRoomRequest.getSender())
                .orElse(null);

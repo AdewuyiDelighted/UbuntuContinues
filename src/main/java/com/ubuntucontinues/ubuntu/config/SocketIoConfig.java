@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 @Slf4j
 public class SocketIoConfig {
@@ -61,8 +59,8 @@ public class SocketIoConfig {
         return (socketIOClient) ->{
             log.info("Connected user with session id of "+ socketIOClient.getSessionId().toString());
             var params = socketIOClient.getHandshakeData().getUrlParams();
-            String room = params.get("rooms").stream().collect(Collectors.joining());
-            String username = params.get("username").stream().collect(Collectors.joining());
+            String room = String.join("", params.get("room"));
+            String username = String.join("", params.get("username"));
             socketIOClient.joinRoom(room);
             log.info("Socket ID[{}] - room[{}] - username [{}]  Connected to chat module through", socketIOClient.getSessionId().toString(), room, username);
         };

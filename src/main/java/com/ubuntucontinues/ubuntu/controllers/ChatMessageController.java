@@ -19,7 +19,7 @@ public class ChatMessageController {
         return new ResponseEntity<>(chatMessageService.findRecentlyChats(senderId),HttpStatus.OK);
     }
 
-    @GetMapping("/messages")
+    @PostMapping("/messages")
     public ResponseEntity<?> chatMessages(@RequestBody FindAllMessagesRequest request){
         return new ResponseEntity<>(chatMessageService.findAllMessagesBtwSendAndRecipient(request), HttpStatus.OK);
     }
