@@ -27,7 +27,6 @@ public class UserRestController {
 
     @PostMapping("/auth")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws InvalidDetailException {
-        System.out.println("i got here");
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 }

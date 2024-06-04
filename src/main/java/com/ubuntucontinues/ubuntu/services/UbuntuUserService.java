@@ -28,7 +28,6 @@ public class UbuntuUserService implements UserService {
     private final JwtService jwtService;
 
 
-
     public SaveUserResponse saveUser(SaveUserRequest saveUserRequest) {
         saveUserRequest.getUser().setStatus(Status.ONLINE);
         userRepository.save(saveUserRequest.getUser());
@@ -78,11 +77,10 @@ public class UbuntuUserService implements UserService {
     }
 
     @Override
-    public void setLoginPassword(User user, String password) {
-        Optional<User> foundUser = userRepository.findUserByEmail(user.getEmail());
+    public void setLoginPassword(User user, String password) throws UserExistException {
+        Optional<User> foundUser = findByEmail(user.getEmail());
         foundUser.get().setPassword(password);
         userRepository.save(foundUser.get());
-
     }
 
     @Override
@@ -125,18 +123,10 @@ public class UbuntuUserService implements UserService {
 
     @Override
     public List<User> getAllUnActivated() {
-        getAllActivated();
         return userRepository.findAll()
                 .stream()
                 .filter(user -> user.getAccountState().equals(NOT_ACTIVATED))
                 .toList();
-    }
-
-    public void getAllActivated() {
-        userRepository.findAll()
-                .forEach(user -> {
-                    if (user.getAccountState().equals(ACTIVATED)) ;
-                });
     }
 
 

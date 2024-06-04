@@ -17,7 +17,7 @@ public class Event {
     private String title;
     private String description;
     @JsonIgnore
-    private LocalDateTime dateCreated = LocalDateTime.now();
+    private LocalDateTime dateCreated;
     @JsonIgnore
     private LocalDate eventDate;
     private String eventImage;

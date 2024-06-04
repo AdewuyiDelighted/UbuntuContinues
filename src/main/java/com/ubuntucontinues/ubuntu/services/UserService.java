@@ -24,7 +24,7 @@ public interface UserService {
 
     User findBy(String userId) throws UserExistException;
 
-    void setLoginPassword(User user,String password);
+    void setLoginPassword(User user,String password) throws UserExistException;
 
     void saveAll(List<User> members);
 

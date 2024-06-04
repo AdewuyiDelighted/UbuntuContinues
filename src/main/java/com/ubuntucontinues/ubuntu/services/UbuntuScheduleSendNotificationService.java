@@ -4,6 +4,7 @@ import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.UserRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.Recipient;
 import com.ubuntucontinues.ubuntu.dto.requests.Sender;
+import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,26 +26,27 @@ public class UbuntuScheduleSendNotificationService implements ScheduleSendNotifi
 
     @Scheduled(cron = "* 51 0 * * *")
     public void scheduleTask() {
-        System.out.println("1");
-//        List<Recipient> recipients = getAllUnActivatedUser();
-        System.out.println("2");
-//        for (Recipient recipient : recipients) {
-//            System.out.println("3");
-//            List<Recipient> currentRecipient = new ArrayList<>();
-//            currentRecipient.add(recipient);
-//            System.out.println("recipient1 " + recipient);
-//            emailService.sendMessage(new Sender("delighteddeborah5@gmail.com", EMAIL_NAME),
-//                    LOGIN_MESSAGE(recipient.getPassword()),
-//                    currentRecipient,
-//                    LOGIN_SUBJECT
-//            );
-//            System.out.println("recipient2 " + recipient);
-//        }
+        List<Recipient> recipients = getAllUnActivatedUser();
+        for (Recipient recipient : recipients) {
+            List<Recipient> currentRecipient = new ArrayList<>();
+            currentRecipient.add(recipient);
+            emailService.sendMessage(new Sender("delighteddeborah5@gmail.com", EMAIL_NAME),
+                    LOGIN_MESSAGE(recipient.getPassword()),
+                    currentRecipient,
+                    LOGIN_SUBJECT
+            );
+        }
 
     }
 
     private void setUserPassword(List<User> users) {
-        users.forEach(user -> userService.setLoginPassword(user, passwordGeneratorServices.getPassword()));
+        users.forEach(user -> {
+            try {
+                userService.setLoginPassword(user, passwordGeneratorServices.getPassword());
+            } catch (UserExistException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private List<Recipient> getAllUnActivatedUser() {
