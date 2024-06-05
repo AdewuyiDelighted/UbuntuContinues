@@ -20,8 +20,6 @@ public interface PostService {
     Post findPostById(String postId) throws PostNotExistException;
     List<PostResponse> getAllPostByUser(String userId) throws UserExistException;
     LikePostResponse likePost(String postId) throws PostNotExistException;
-    GetAllPostResponse getAllPost();
-
-
+    List<GetAllPostResponse> getAllPost();
 
 }

@@ -22,7 +22,7 @@ public class ChatEventController {
     private EventService eventService;
 
     @PostMapping("/createEvent")
-    public ResponseEntity<?> createEvent(@RequestPart(value = "image" ,required = false) MultipartFile file, @RequestPart CreateEventRequest createEventRequest) throws EventAlreadyExistException, IOException {
+    public ResponseEntity<?> createEvent(@RequestPart(value = "image" ,required = false) MultipartFile file, @ModelAttribute CreateEventRequest createEventRequest) throws EventAlreadyExistException, IOException {
         return new ResponseEntity<>(eventService.createEvent(createEventRequest,file), HttpStatus.OK);
     }
 

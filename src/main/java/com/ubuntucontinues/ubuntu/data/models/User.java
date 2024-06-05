@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import static com.ubuntucontinues.ubuntu.data.enums.AccountState.NOT_ACTIVATED;
+
 @Getter
 @Setter
 @Document
@@ -23,7 +25,7 @@ public class User {
     private Status status = Status.OFFLINE;
     private String email;
     private String password;
-    private AccountState accountState = AccountState.NOT_ACTIVATED;
+    private AccountState accountState = NOT_ACTIVATED;
     @DBRef
     private Cohort cohort;
     @DBRef
