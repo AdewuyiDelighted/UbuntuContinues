@@ -97,10 +97,10 @@ public class UbuntuPostService implements PostService{
     }
 
     @Override
-    public GetAllPostResponse getAllPost() {
-        GetAllPostResponse response = new GetAllPostResponse();
-        response.setPosts(repository.findAll().stream().toList());
-        return response;
+    public List<GetAllPostResponse> getAllPost() {
+        return repository.findAll().stream().map(
+                GetAllPostResponse::new
+        ).toList();
     }
 
 

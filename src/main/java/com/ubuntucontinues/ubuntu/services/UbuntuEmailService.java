@@ -4,6 +4,7 @@ import com.ubuntucontinues.ubuntu.dto.requests.BrevoMailRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.Recipient;
 import com.ubuntucontinues.ubuntu.dto.requests.Sender;
 import com.ubuntucontinues.ubuntu.dto.responses.BrevoMailResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,9 +14,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-import static com.ubuntucontinues.ubuntu.util.AppUtils.REQUEST_MESSAGE;
-
 @Service
+@Slf4j
 public class UbuntuEmailService implements EmailService{
 
     @Value("${brevo.api.key}")
@@ -32,7 +32,7 @@ public class UbuntuEmailService implements EmailService{
         headers.set("api-key", apiKey);
         HttpEntity<?> entity = new HttpEntity<>(request, headers);
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println(restTemplate.postForEntity(url, entity, BrevoMailResponse.class));
+        log.info("restTemplate -> {}",restTemplate.postForEntity(url, entity, BrevoMailResponse.class));
     }
 
     private static BrevoMailRequest createRequest(Sender sender, String message, List<Recipient> recipient, String subject) {

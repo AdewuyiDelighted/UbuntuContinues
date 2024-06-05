@@ -3,7 +3,6 @@ package com.ubuntucontinues.ubuntu.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.dto.requests.AddStudentRequest;
-import com.ubuntucontinues.ubuntu.dto.requests.StudentRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.AddStudentResponse;
 import com.ubuntucontinues.ubuntu.services.CommunityManagerService;
 import com.ubuntucontinues.ubuntu.util.AppUtils;
@@ -14,12 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -41,13 +38,10 @@ public class UbuntuCommunityManagerControllerTest {
     void testAddStudentSuccess() throws Exception {
         AddStudentRequest request = new AddStudentRequest();
         request.setCohortNumber("2");
-        StudentRequest request1 = new StudentRequest();
-        request1.setEmail("Ola@gmail.com");
-        request1.setFullName("Ola aina");
-        request.setMembers(List.of(request1));
+        request.setMembers(Map.of("Ola@gmail.com", "Ola aina"));
         User user = new User();
-        user.setEmail(request.getMembers().getFirst().getEmail());
-        user.setFullName(request.getMembers().getFirst().getFullName());
+//        user.setEmail(request.getMembers().getFirst().getEmail());
+//        user.setFullName(request.getMembers().getFirst().getFullName());
         AddStudentResponse response = new AddStudentResponse();
         response.setMessage(AppUtils.MEMBERS_ADDED_SUCCESSFULLY);
 

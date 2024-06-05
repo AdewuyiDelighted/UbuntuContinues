@@ -1,5 +1,6 @@
 package com.ubuntucontinues.ubuntu.dto.responses;
 
+import com.ubuntucontinues.ubuntu.data.enums.AccountState;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,5 +8,6 @@ import lombok.Setter;
 @Setter
 public class UserResponse {
     private String id;
-    private String userName;
+    private String email;
+    private AccountState accountState;
 }
