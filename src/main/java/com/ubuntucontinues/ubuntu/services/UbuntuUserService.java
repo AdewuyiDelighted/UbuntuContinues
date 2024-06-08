@@ -113,9 +113,9 @@ public class UbuntuUserService implements UserService {
                 .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\""));
     }
 
-    public Optional<User> findByEmail(String email) throws UserExistException {
-        return Optional.ofNullable(userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\"")));
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email)).orElse(Optional.empty());
     }
 
     @Override
@@ -123,6 +123,7 @@ public class UbuntuUserService implements UserService {
         User user = userRepository.findUserByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
+        if (user.getAccountState() == NOT_ACTIVATED) user.setAccountState(ACTIVATED);
         String token = jwtService.createToken(user.getId(), user.getEmail());
         LoginResponse response = new LoginResponse();
         response.setToken(token);
@@ -146,9 +147,10 @@ public class UbuntuUserService implements UserService {
     public void getAllActivated() {
         userRepository.findAll()
                 .forEach(user -> {
-                    if (user.getAccountState().equals(ACTIVATED)) ;
+                    if (user.getAccountState().equals(ACTIVATED));
                 });
     }
+
 
 
 }
