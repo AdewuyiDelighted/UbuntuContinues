@@ -94,6 +94,12 @@ public class UbuntuPostService implements PostService{
         response.setPostId(savedPost.getId());
         return response;
     }
+    @Override
+    public List<GetAllPostResponse> getAllPost() {
+        return repository.findAll().stream().map(
+                GetAllPostResponse::new
+        ).toList();
+    }
 
 
 }

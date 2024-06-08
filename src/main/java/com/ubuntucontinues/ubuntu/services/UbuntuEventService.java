@@ -41,7 +41,8 @@ import static java.util.Arrays.stream;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UbuntuEventService implements EventService {
+public class
+UbuntuEventService implements EventService {
     private EventRepository eventRepository;
     private CloudinaryService cloudinaryService;
     private ModelMapper modelMapper;

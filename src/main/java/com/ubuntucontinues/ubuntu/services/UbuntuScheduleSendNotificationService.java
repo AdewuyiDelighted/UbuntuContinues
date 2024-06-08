@@ -24,7 +24,7 @@ public class UbuntuScheduleSendNotificationService implements ScheduleSendNotifi
     private PasswordGeneratorServices passwordGeneratorServices;
     private ModelMapper modelMapper;
 
-    @Scheduled(cron = "* 51 0 * * *")
+//    @Scheduled(cron = "* 51 0 * * *")
     public void scheduleTask() {
         List<Recipient> recipients = getAllUnActivatedUser();
         for (Recipient recipient : recipients) {

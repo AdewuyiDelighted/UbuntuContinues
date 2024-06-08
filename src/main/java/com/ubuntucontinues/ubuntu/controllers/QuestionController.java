@@ -22,17 +22,21 @@ public class QuestionController {
 
     @GetMapping("/getUserQuestion")
     public ResponseEntity<?> getUserQuestion(@RequestParam("userId") String userId) throws UserExistException {
-        return new ResponseEntity<>(questionService.findAllByUser(userId), HttpStatus.FOUND);
+        return new ResponseEntity<>(questionService.findAllByUser(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/getQuestions")
-    public ResponseEntity<?> getAllQuestions() {
-        return new ResponseEntity<>(questionService.findAll(), HttpStatus.FOUND);
+//    @GetMapping("/getQuestions")
+//    public ResponseEntity<?> getAllQuestions() {
+//        return new ResponseEntity<>(questionService.findAll(), HttpStatus.OK);
+//    }
+    @GetMapping("/getQuestion")
+    public ResponseEntity<?> getAllQuestion() {
+        return new ResponseEntity<>(questionService.findAllQuestions(), HttpStatus.OK);
     }
 
     @PostMapping("/getAQuestion")
     public ResponseEntity<?> getAQuestion(@RequestParam("questionId") String questionId) throws QuestionDoesNotExistException {
-        return new ResponseEntity<>(questionService.findAQuestion(questionId), HttpStatus.FOUND);
+        return new ResponseEntity<>(questionService.findAQuestion(questionId), HttpStatus.OK);
     }
     @PostMapping("/deleteQuestion")
     public ResponseEntity<?> deleteQuestion(@RequestParam ("questionId") String questionId){

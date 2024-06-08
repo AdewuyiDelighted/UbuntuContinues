@@ -30,15 +30,17 @@ import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_UPLOADED_MESSAGE
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UbuntuQuestionService implements QuestionService{
+public class UbuntuQuestionService implements QuestionService {
     private QuestionRepository questionRepository;
     private UserService userService;
     private ModelMapper mapper;
+
     @Override
     public Question findBy(String questionId) throws QuestionExistException {
         return questionRepository.findById(questionId)
-                .orElseThrow(()->new QuestionExistException("\"err\" :\"Not a valid question\""));
+                .orElseThrow(() -> new QuestionExistException("\"err\" :\"Not a valid question\""));
     }
+
     @Override
     public UploadQuestionResponse postQuestion(UploadQuestionRequest uploadQuestionRequest) throws UserExistException {
         User user = userService.findBY(uploadQuestionRequest.getUserId());
@@ -61,12 +63,22 @@ public class UbuntuQuestionService implements QuestionService{
                 .map(question -> mapper.map(question, QuestionResponse.class))
                 .toList();
     }
+
+    @Override
+    public List<QuestionResponse> findAllQuestions() {
+        return questionRepository.findAll()
+                .stream()
+                .map(question -> mapper.map(question, QuestionResponse.class))
+                .toList();
+    }
+
     @Override
     public QuestionResponse findAQuestion(String questionId) throws QuestionDoesNotExistException {
         return mapper.map(questionRepository.findById(questionId)
                         .orElseThrow(() -> new QuestionDoesNotExistException(AppUtils.QUESTION_NOT_EXIST)),
                 QuestionResponse.class);
     }
+
     @Override
     public List<QuestionResponse> findAllByUser(String userId) throws UserExistException {
         return questionRepository.findAllByUser(userService.findBY(userId))

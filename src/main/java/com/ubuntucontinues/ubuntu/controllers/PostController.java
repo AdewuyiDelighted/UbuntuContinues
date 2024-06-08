@@ -50,4 +50,11 @@ public class PostController {
         return new ResponseEntity<>(postService.likePost(postId), HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/all_post")
+    public ResponseEntity<?> getAllPost(){
+        return new ResponseEntity<>(postService.getAllPost(),HttpStatus.OK);
+    }
+
 }
+
+//all_post

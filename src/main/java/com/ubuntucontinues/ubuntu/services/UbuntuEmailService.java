@@ -16,7 +16,8 @@ import java.util.List;
 import static com.ubuntucontinues.ubuntu.util.AppUtils.REQUEST_MESSAGE;
 
 @Service
-public class UbuntuEmailService implements EmailService{
+public class
+UbuntuEmailService implements EmailService{
 
     @Value("${brevo.api.key}")
     private String apiKey;
