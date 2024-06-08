@@ -5,11 +5,13 @@ import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.PostRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.GetAllPostResponse;
+import com.ubuntucontinues.ubuntu.dto.requests.LikePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
 import com.ubuntucontinues.ubuntu.exceptions.PostNotExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import com.ubuntucontinues.ubuntu.util.AppUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
-
+@Slf4j
 @Service
 public class UbuntuPostService implements PostService{
 
@@ -86,18 +88,30 @@ public class UbuntuPostService implements PostService{
     }
 
     @Override
-    public LikePostResponse likePost(String postId) throws PostNotExistException {
-        Post post = findPostById(postId);
-        post.setNumberOfLikes(post.getNumberOfLikes() + 1L);
+    public LikePostResponse likePost(LikePostRequest request) throws PostNotExistException {
+        Post post = findPostById(request.getPostId());
+        verifyLikePost(request, post);
         Post savedPost = repository.save(post);
         LikePostResponse response = new LikePostResponse();
-        response.setMessage(AppUtils.LIKED_POST_RESPONSE);
+        response.setMessage(LIKED_POST_RESPONSE);
         response.setPostId(savedPost.getId());
         return response;
     }
 
+    private static void verifyLikePost(LikePostRequest request, Post post) {
+        if (post.getLikes().get(request.getUserId()) == null){
+            post.getLikes().put(request.getUserId(), true);
+        }else{
+            boolean output = post.getLikes().get(request.getUserId());
+            output = !output;
+            post.getLikes().replace(request.getUserId(), output);
+        }
+    }
+
     @Override
     public List<GetAllPostResponse> getAllPost() {
+        log.info("size of post {}", repository.findAll().size());
+        log.info("post {}", repository.findAll());
         return repository.findAll().stream().map(
                 GetAllPostResponse::new
         ).toList();

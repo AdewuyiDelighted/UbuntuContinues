@@ -3,6 +3,7 @@ package com.ubuntucontinues.ubuntu.controllers;
 import com.ubuntucontinues.ubuntu.dto.requests.AddCommentRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.AddCommentResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.CommentResponse;
+import com.ubuntucontinues.ubuntu.exceptions.CommentDoesNotExistException;
 import com.ubuntucontinues.ubuntu.exceptions.PostNotExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import com.ubuntucontinues.ubuntu.services.CommentService;
@@ -23,10 +24,16 @@ public class CommentController {
         return new ResponseEntity<>(commentService.comment(request), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/list/{postId}")
     public ResponseEntity<List<CommentResponse>> findAllPostComment(@PathVariable String postId) throws PostNotExistException {
         return new ResponseEntity<>(commentService.getAllCommentByPost(postId), HttpStatus.OK);
     }
+
+    @GetMapping("/{commentId}")
+    public ResponseEntity<CommentResponse> findCommentBy(@PathVariable String commentId) throws CommentDoesNotExistException {
+        return new ResponseEntity<>(commentService.findBy(commentId), HttpStatus.OK);
+    }
+
 
 
 }

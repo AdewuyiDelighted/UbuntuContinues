@@ -7,13 +7,16 @@ import com.ubuntucontinues.ubuntu.data.repositories.CommentRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.AddCommentRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.AddCommentResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.CommentResponse;
+import com.ubuntucontinues.ubuntu.exceptions.CommentDoesNotExistException;
 import com.ubuntucontinues.ubuntu.exceptions.PostNotExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
-import com.ubuntucontinues.ubuntu.util.AppUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.ubuntucontinues.ubuntu.util.AppUtils.COMMENT_NOT_FOUND;
+import static com.ubuntucontinues.ubuntu.util.AppUtils.COMMENT_SAVED_RESPONSE;
 
 @Service
 @AllArgsConstructor
@@ -32,8 +35,8 @@ public class UbuntuCommentService implements CommentService{
         comment.setUser(user);
         Comment savedComment = repository.save(comment);
         AddCommentResponse response = new AddCommentResponse();
-        response.setCommentId(savedComment.getId());
-        response.setMessage(AppUtils.COMMENT_SAVED_RESPONSE);
+        response.setId(savedComment.getId());
+        response.setMessage(COMMENT_SAVED_RESPONSE);
         return response;
     }
 
@@ -41,5 +44,14 @@ public class UbuntuCommentService implements CommentService{
     public List<CommentResponse> getAllCommentByPost(String postId) throws PostNotExistException {
         return repository.findAllCommentByPost(postService.findPostById(postId)).stream()
                 .map(CommentResponse::new).toList();
+    }
+
+    @Override
+    public CommentResponse findBy(String commentId) throws CommentDoesNotExistException {
+        return repository.findById(commentId)
+                .stream()
+                .map(CommentResponse::new)
+                .findFirst()
+                .orElseThrow(()-> new CommentDoesNotExistException(COMMENT_NOT_FOUND));
     }
 }
