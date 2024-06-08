@@ -28,6 +28,7 @@ public class UbuntuUserService implements UserService {
     private final JwtService jwtService;
 
 
+
     public SaveUserResponse saveUser(SaveUserRequest saveUserRequest) {
         saveUserRequest.getUser().setStatus(Status.ONLINE);
         userRepository.save(saveUserRequest.getUser());
@@ -81,6 +82,7 @@ public class UbuntuUserService implements UserService {
         Optional<User> foundUser = findByEmail(user.getEmail());
         foundUser.get().setPassword(password);
         userRepository.save(foundUser.get());
+
     }
 
     @Override
@@ -90,7 +92,14 @@ public class UbuntuUserService implements UserService {
 
     @Override
     public void checkUserExistByEmail(String email) throws UserExistException {
-        if (userRepository.findUserByEmail(email).isPresent()) throw new UserExistException(USER_NOT_EXIST);
+        if (userRepository.findUserByEmail(email).isPresent()) throw new UserExistException(USER_EXIST);
+    }
+
+    @Override
+    public List<UserResponse> findAllMemberInACohort(String cohortNumber) {
+        return userRepository.findUsersByCohort_CohortNumber(cohortNumber)
+                .stream()
+                .map(user -> modelMapper.map(user, UserResponse.class)).toList();
     }
 
     @Override
@@ -99,9 +108,9 @@ public class UbuntuUserService implements UserService {
                 .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\""));
     }
 
-    public Optional<User> findByEmail(String email) throws UserExistException {
-        return Optional.ofNullable(userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\"")));
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email)).orElse(Optional.empty());
     }
 
     @Override
@@ -110,6 +119,7 @@ public class UbuntuUserService implements UserService {
                 .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
         System.out.println(user);
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
+        if (user.getAccountState() == NOT_ACTIVATED) user.setAccountState(ACTIVATED);
         String token = jwtService.createToken(user.getId(), user.getEmail());
         LoginResponse response = new LoginResponse();
         response.setToken(token);
@@ -123,11 +133,20 @@ public class UbuntuUserService implements UserService {
 
     @Override
     public List<User> getAllUnActivated() {
+        getAllActivated();
         return userRepository.findAll()
                 .stream()
                 .filter(user -> user.getAccountState().equals(NOT_ACTIVATED))
                 .toList();
     }
+
+    public void getAllActivated() {
+        userRepository.findAll()
+                .forEach(user -> {
+                    if (user.getAccountState().equals(ACTIVATED)) ;
+                });
+    }
+
 
 
 }

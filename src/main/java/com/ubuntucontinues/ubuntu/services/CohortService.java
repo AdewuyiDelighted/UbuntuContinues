@@ -17,5 +17,5 @@ public interface CohortService {
     FindCohortResponse findCohort(FindCohortRequest findCohortRequest) throws CohortNotExistException, CohortAlreadyExistException;
 
     List<FindCohortResponse> findAllCohort() throws CohortNotExistException;
-    Cohort findCohortBCohortNumber(String cohortNumber);
+    Cohort findCohortByCohortNumber(String cohortNumber);
 }

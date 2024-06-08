@@ -1,11 +1,6 @@
 package com.ubuntucontinues.ubuntu.services;
 
 import com.ubuntucontinues.ubuntu.data.models.Question;
-import com.ubuntucontinues.ubuntu.data.repositories.QuestionRepository;
-import com.ubuntucontinues.ubuntu.exceptions.QuestionExistException;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import com.ubuntucontinues.ubuntu.data.models.Question;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.QuestionRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.UploadQuestionRequest;
@@ -13,17 +8,17 @@ import com.ubuntucontinues.ubuntu.dto.responses.DeleteQuestionResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.QuestionResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.UploadQuestionResponse;
 import com.ubuntucontinues.ubuntu.exceptions.QuestionDoesNotExistException;
+import com.ubuntucontinues.ubuntu.exceptions.QuestionExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import com.ubuntucontinues.ubuntu.util.AppUtils;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_NOT_EXIST;
 import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_UPLOADED_MESSAGE;
 
 
@@ -52,7 +47,7 @@ public class UbuntuQuestionService implements QuestionService {
         Question savedQuestion = questionRepository.save(newQuestion);
         UploadQuestionResponse response = mapper.map(newQuestion, UploadQuestionResponse.class);
         response.setMessage(QUESTION_UPLOADED_MESSAGE);
-        response.setQuestionId(newQuestion.getId());
+        response.setQuestionId(savedQuestion.getId());
         return response;
     }
 

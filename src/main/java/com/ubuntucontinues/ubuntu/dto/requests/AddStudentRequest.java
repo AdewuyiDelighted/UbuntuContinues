@@ -3,12 +3,12 @@ package com.ubuntucontinues.ubuntu.dto.requests;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
 public class AddStudentRequest {
-    private List<StudentRequest> members;
-    private Long cohortNumber;
+    private String cohortNumber;
+    private Map<String, String> members;
 }
 

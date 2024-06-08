@@ -22,7 +22,7 @@ import java.util.List;
 public class PostController {
     private PostService postService;
 
-    @PostMapping()
+    @PostMapping("/create_post")
     public ResponseEntity<CreatePostResponse> post(
             @RequestPart(value = "image", required = false) MultipartFile multipartFile,
             @ModelAttribute CreatePostRequest request
@@ -50,11 +50,9 @@ public class PostController {
         return new ResponseEntity<>(postService.likePost(postId), HttpStatus.ACCEPTED);
     }
 
+
     @GetMapping("/all_post")
     public ResponseEntity<?> getAllPost(){
         return new ResponseEntity<>(postService.getAllPost(),HttpStatus.OK);
     }
-
 }
-
-//all_post

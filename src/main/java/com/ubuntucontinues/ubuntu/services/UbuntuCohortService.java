@@ -56,7 +56,7 @@ public class UbuntuCohortService implements CohortService {
     }
 
     @Override
-    public List<FindCohortResponse> findAllCohort() throws CohortNotExistException {
+    public List<FindCohortResponse> findAllCohort() {
         List<Cohort> cohorts = cohortRepository.findAll();
         if (!cohorts.isEmpty())
             return cohorts.stream()
@@ -66,7 +66,7 @@ public class UbuntuCohortService implements CohortService {
     }
 
     @Override
-    public Cohort findCohortBCohortNumber(String cohortNumber) {
+    public Cohort findCohortByCohortNumber(String cohortNumber) {
         Optional<Cohort> foundCohort = cohortRepository.findCohortByCohortNumber(cohortNumber);
         return foundCohort.orElse(null);
     }

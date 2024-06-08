@@ -61,8 +61,11 @@ public class UbuntuChatRoomService implements ChatRoomService{
     }
 
     private ChatRoom getAChatRoom(RetrieveChatRoomRequest retrieveChatRoomRequest) {
-        return chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(retrieveChatRoomRequest.getSender(), retrieveChatRoomRequest.getRecipient())
+        ChatRoom chatRoom = chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(retrieveChatRoomRequest.getSender(), retrieveChatRoomRequest.getRecipient())
                 .orElse(null);
+        if(chatRoom != null) return chatRoom;
+       return chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(retrieveChatRoomRequest.getRecipient(), retrieveChatRoomRequest.getSender())
+               .orElse(null);
     }
 
 
@@ -88,9 +91,13 @@ public class UbuntuChatRoomService implements ChatRoomService{
 
     @Override
     public Optional<String> getAChatRoomId(RetrieveChatRoomRequest request) {
-        return chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(request.getSender(), request.getRecipient())
-                .map(ChatRoom::getChat_id)
-                .or(Optional::empty);
+        Optional<String> chatId = chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(request.getSender(), request.getRecipient())
+                                                    .map(ChatRoom::getChat_id)
+                                                    .or(null);
+        if (chatId.isPresent()) return chatId;
+        return chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(request.getRecipient(), request.getSender())
+                                                            .map(ChatRoom::getChat_id)
+                                                            .or(Optional::empty);
     }
 
     @Override

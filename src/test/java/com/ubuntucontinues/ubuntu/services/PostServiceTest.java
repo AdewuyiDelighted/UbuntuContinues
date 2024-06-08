@@ -30,4 +30,10 @@ class PostServiceTest {
 //    }
 
 
+
+@Test
+    public void thatUserPost(){
+
+}
+
 }
