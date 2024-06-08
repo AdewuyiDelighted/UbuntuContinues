@@ -3,6 +3,7 @@ package com.ubuntucontinues.ubuntu.services;
 import com.ubuntucontinues.ubuntu.data.models.Post;
 import com.ubuntucontinues.ubuntu.dto.requests.CreatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.GetAllPostResponse;
+import com.ubuntucontinues.ubuntu.dto.requests.LikePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
 import com.ubuntucontinues.ubuntu.exceptions.PostNotExistException;
@@ -19,7 +20,7 @@ public interface PostService {
     UpdatePostResponse update(UpdatePostRequest request) throws PostNotExistException;
     Post findPostById(String postId) throws PostNotExistException;
     List<PostResponse> getAllPostByUser(String userId) throws UserExistException;
-    LikePostResponse likePost(String postId) throws PostNotExistException;
+    LikePostResponse likePost(LikePostRequest request) throws PostNotExistException;
     List<GetAllPostResponse> getAllPost();
 
 }
