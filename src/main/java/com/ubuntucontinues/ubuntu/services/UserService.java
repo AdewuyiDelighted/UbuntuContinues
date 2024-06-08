@@ -30,4 +30,5 @@ public interface UserService {
 
     void checkUserExistByEmail(String email) throws UserExistException;
     List<UserResponse> findAllMemberInACohort(String cohortNumber);
+    Integer getAllUsersCount();
 }

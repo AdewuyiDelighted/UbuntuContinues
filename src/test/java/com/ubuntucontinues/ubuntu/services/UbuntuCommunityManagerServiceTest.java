@@ -1,8 +1,7 @@
 package com.ubuntucontinues.ubuntu.services;
 
-import com.ubuntucontinues.ubuntu.dto.requests.AddStudentRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdateEventRequest;
-import com.ubuntucontinues.ubuntu.dto.responses.AddStudentResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.DropDownResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.UpdateEventResponse;
 import com.ubuntucontinues.ubuntu.exceptions.EventExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
@@ -17,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UbuntuCommunityManagerServiceTest {
     @Autowired
     private CommunityManagerService communityManagerService;
+    private UserService userService;
 
 
 //    @Test
@@ -58,6 +58,12 @@ public class UbuntuCommunityManagerServiceTest {
 
 
     }
-
+    @Test
+    public void testThatCommunityManagerCanRemoveStudent() throws UserExistException {
+        int allUserCount = userService.getAllUsersCount();
+        String userId ="665f079ab92577073796b41e";
+    DropDownResponse response =  userService.dropDown(userId);
+        assertEquals(allUserCount-1,userService.getAllUsersCount());
+    }
 
 }

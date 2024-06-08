@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ubuntu/cohort")
+@CrossOrigin("*")
 @AllArgsConstructor
 public class CohortController {
     private final CohortService cohortService;
