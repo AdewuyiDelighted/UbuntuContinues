@@ -53,7 +53,7 @@ UbuntuEventService implements EventService {
         String url = "";
         if (foundEvent.isEmpty()) {
             if (file != null) {
-                 url = cloudinaryService.uploadImage(file).getImageUrl();
+                url = cloudinaryService.uploadImage(file).getImageUrl();
             }
             Event event = Event.builder()
                     .title(createEventRequest.getTitle())
@@ -81,16 +81,14 @@ UbuntuEventService implements EventService {
     public List<FindAEventResponse> findAllEvent() throws EventDoesntExistException {
         List<Event> events = eventRepository.findAll();
         if (!events.isEmpty()) {
-            List<FindAEventResponse> findAEventResponses = eventRepository.findAll(
-
-                    )
+            List<FindAEventResponse> findAEventResponses = eventRepository.findAll()
                     .stream()
                     .map(event -> modelMapper.map(event, FindAEventResponse.class))
                     .toList();
             System.out.println(findAEventResponses);
             return findAEventResponses;
         }
-        throw new EventDoesntExistException(NO_EVENT_AVAILABLE);
+        return new ArrayList<>();
     }
 
     @Override
