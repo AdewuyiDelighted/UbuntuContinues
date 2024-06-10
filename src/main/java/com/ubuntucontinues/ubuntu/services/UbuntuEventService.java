@@ -9,22 +9,19 @@ import com.github.fge.jsonpatch.JsonPatchOperation;
 import com.github.fge.jsonpatch.ReplaceOperation;
 import com.ubuntucontinues.ubuntu.data.models.Event;
 import com.ubuntucontinues.ubuntu.data.repositories.EventRepository;
+import com.ubuntucontinues.ubuntu.dto.requests.CreateEventRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdateEventRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.CreateEventResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.DeleteEventResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.FindAEventResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.UpdateEventResponse;
+import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
+import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
 import com.ubuntucontinues.ubuntu.exceptions.EventExistException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import com.ubuntucontinues.ubuntu.data.models.Event;
-import com.ubuntucontinues.ubuntu.data.repositories.EventRepository;
-import com.ubuntucontinues.ubuntu.dto.requests.CreateEventRequest;
-import com.ubuntucontinues.ubuntu.dto.responses.CreateEventResponse;
-import com.ubuntucontinues.ubuntu.dto.responses.DeleteEventResponse;
-import com.ubuntucontinues.ubuntu.dto.responses.FindAEventResponse;
-import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
-import com.ubuntucontinues.ubuntu.exceptions.EventDoesntExistException;
-import com.ubuntucontinues.ubuntu.util.AppUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -41,8 +38,7 @@ import static java.util.Arrays.stream;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class
-UbuntuEventService implements EventService {
+public class UbuntuEventService implements EventService {
     private EventRepository eventRepository;
     private CloudinaryService cloudinaryService;
     private ModelMapper modelMapper;
