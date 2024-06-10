@@ -103,6 +103,11 @@ public class UbuntuUserService implements UserService {
     }
 
     @Override
+    public Integer getAllUsersCount() {
+        return Math.toIntExact(userRepository.count());
+    }
+
+    @Override
     public User findBY(String userName) throws UserExistException {
         return userRepository.findById(userName)
                 .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\""));
@@ -117,7 +122,6 @@ public class UbuntuUserService implements UserService {
     public LoginResponse login(LoginRequest loginRequest) throws InvalidDetailException {
         User user = userRepository.findUserByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
-        System.out.println(user);
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
         if (user.getAccountState() == NOT_ACTIVATED) user.setAccountState(ACTIVATED);
         String token = jwtService.createToken(user.getId(), user.getEmail());

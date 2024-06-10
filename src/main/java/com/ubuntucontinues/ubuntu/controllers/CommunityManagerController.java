@@ -9,6 +9,7 @@ import com.ubuntucontinues.ubuntu.exceptions.EventExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import com.ubuntucontinues.ubuntu.services.CommunityManagerService;
 import com.ubuntucontinues.ubuntu.services.EventService;
+import com.ubuntucontinues.ubuntu.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.io.IOException;
 public class CommunityManagerController {
     private final CommunityManagerService managerService;
     private final EventService eventServices;
+    private final UserService userService;
 
     @PostMapping("/createEvent")
     public ResponseEntity<?> createEvent(@RequestPart(value = "image" ,required = false) MultipartFile file, @ModelAttribute CreateEventRequest createEventRequest) throws EventAlreadyExistException, IOException {
@@ -54,6 +56,11 @@ public class CommunityManagerController {
         return new ResponseEntity<>(managerService.updateEvent(request), HttpStatus.CREATED);
     }
 
+
+    @DeleteMapping("/remove_student")
+    public ResponseEntity<?> removeStudent(@RequestBody String userId) throws  UserExistException {
+        return new ResponseEntity<>(userService.dropDown(userId), HttpStatus.OK);
+    }
 
 
 }
