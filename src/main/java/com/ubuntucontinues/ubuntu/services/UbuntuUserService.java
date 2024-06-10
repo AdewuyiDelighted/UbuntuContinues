@@ -78,8 +78,8 @@ public class UbuntuUserService implements UserService {
     }
 
     @Override
-    public void setLoginPassword(User user, String password) {
-        Optional<User> foundUser = userRepository.findUserByEmail(user.getEmail());
+    public void setLoginPassword(User user, String password) throws UserExistException {
+        Optional<User> foundUser = findByEmail(user.getEmail());
         foundUser.get().setPassword(password);
         userRepository.save(foundUser.get());
 
@@ -143,7 +143,7 @@ public class UbuntuUserService implements UserService {
     public void getAllActivated() {
         userRepository.findAll()
                 .forEach(user -> {
-                    if (user.getAccountState().equals(ACTIVATED));
+                    if (user.getAccountState().equals(ACTIVATED)) ;
                 });
     }
 

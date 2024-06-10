@@ -4,7 +4,7 @@ import com.ubuntucontinues.ubuntu.data.models.Post;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.PostRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreatePostRequest;
-import com.ubuntucontinues.ubuntu.dto.requests.GetAllPostResponse;
+import com.ubuntucontinues.ubuntu.dto.responses.GetAllPostResponse;
 import com.ubuntucontinues.ubuntu.dto.requests.LikePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;

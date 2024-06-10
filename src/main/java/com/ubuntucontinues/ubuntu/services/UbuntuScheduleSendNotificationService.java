@@ -63,7 +63,13 @@ public class UbuntuScheduleSendNotificationService implements ScheduleSendNotifi
     }
 
     private void setUserPassword(List<User> users) {
-        users.forEach(user -> userService.setLoginPassword(user, passwordGeneratorServices.getPassword()));
+        users.forEach(user -> {
+            try {
+                userService.setLoginPassword(user, passwordGeneratorServices.getPassword());
+            } catch (UserExistException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private List<Recipient> getAllUnActivatedUser() {

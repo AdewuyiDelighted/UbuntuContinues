@@ -15,6 +15,8 @@ public interface QuestionService {
     Question findBy(String questionId) throws QuestionExistException;
     UploadQuestionResponse postQuestion(UploadQuestionRequest uploadQuestionRequest) throws UserExistException;
     List<QuestionResponse> findAll();
+    List<QuestionResponse> findAllQuestions();
+
     QuestionResponse findAQuestion(String questionId) throws QuestionDoesNotExistException;
     List<QuestionResponse> findAllByUser(String userId) throws UserExistException;
 
