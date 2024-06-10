@@ -2,13 +2,18 @@ package com.ubuntucontinues.ubuntu.data.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Document
 @Getter
 @Setter
+@ToString
 public class Post {
     @Id
     private String id;
@@ -17,5 +22,5 @@ public class Post {
     private String image;
     @DBRef
     private User user;
-    private Long numberOfLikes = 0L;
+    private Map<String, Boolean> likes = new HashMap<>();
 }

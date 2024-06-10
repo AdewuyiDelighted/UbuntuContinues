@@ -40,6 +40,7 @@ public class AppUtils {
     public static final String COMMUNITY_MANAGER = "Community Manager";
     public static final String ADD_STUDENT = "ADD STUDENT MAIL MESSAGE";
     public static final String APP_EMAIL = "delighteddeborah5@gmail.com";
+    public static final String COMMENT_NOT_FOUND = "Comment does not exist";
 
 
     public static String INITIATE_REQUEST_MESSAGE(String senderEmail, String recipientEmail, String link) {

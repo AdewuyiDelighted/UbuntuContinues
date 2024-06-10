@@ -25,7 +25,10 @@ public interface UserService {
     List<User> getAllUsers();
     List<User> getAllUnActivated();
     User findBy(String userId) throws UserExistException;
-    void setLoginPassword(User user,String password);
+
+
+    void setLoginPassword(User user,String password) throws UserExistException;
+
     void saveAll(List<User> members);
     void checkUserExistByEmail(String email) throws UserExistException;
     List<UserResponse> findAllMemberInACohort(String cohortNumber);

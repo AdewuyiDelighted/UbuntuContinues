@@ -78,21 +78,22 @@ public class UbuntuChatMessageService implements ChatMessageService {
         List<RecentChats> recentChats = new ArrayList<>();
         String[] splitChatId;
         int count = 0;
-
         for (String chatId : chatIds) {
-
             splitChatId = chatId.split("_");
-
             while (count != 2) {
-                if (!splitChatId[count].equals(senderEmail)) {
-                    RecentChats newRecentChat = new RecentChats();
-                    newRecentChat.setRecipientEmail(splitChatId[count]);
-                    recentChats.add(newRecentChat);
-                }
+                setRecentChats(senderEmail, splitChatId, count, recentChats);
                 count++;
             }
             count = 0;
         }
         return recentChats;
+    }
+
+    private static void setRecentChats(String senderEmail, String[] splitChatId, int count, List<RecentChats> recentChats) {
+        if (!splitChatId[count].equals(senderEmail)) {
+            RecentChats newRecentChat = new RecentChats();
+            newRecentChat.setRecipientEmail(splitChatId[count]);
+            recentChats.add(newRecentChat);
+        }
     }
 }

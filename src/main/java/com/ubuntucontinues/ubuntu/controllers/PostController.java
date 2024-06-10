@@ -1,6 +1,7 @@
 package com.ubuntucontinues.ubuntu.controllers;
 
 import com.ubuntucontinues.ubuntu.dto.requests.CreatePostRequest;
+import com.ubuntucontinues.ubuntu.dto.requests.LikePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
 import com.ubuntucontinues.ubuntu.exceptions.PostNotExistException;
@@ -45,9 +46,9 @@ public class PostController {
         return new ResponseEntity<>(postService.getAllPostByUser(userId), HttpStatus.FOUND);
     }
 
-    @PostMapping("/like/{postId}")
-    public ResponseEntity<LikePostResponse> likePost(@PathVariable String postId) throws PostNotExistException {
-        return new ResponseEntity<>(postService.likePost(postId), HttpStatus.ACCEPTED);
+    @PostMapping("/like")
+    public ResponseEntity<LikePostResponse> likePost(@RequestBody LikePostRequest request) throws PostNotExistException {
+        return new ResponseEntity<>(postService.likePost(request), HttpStatus.ACCEPTED);
     }
 
 

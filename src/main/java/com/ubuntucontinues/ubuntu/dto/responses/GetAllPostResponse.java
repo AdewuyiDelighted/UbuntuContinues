@@ -1,4 +1,4 @@
-package com.ubuntucontinues.ubuntu.dto.requests;
+package com.ubuntucontinues.ubuntu.dto.responses;
 
 import com.ubuntucontinues.ubuntu.data.models.Post;
 import lombok.Getter;
