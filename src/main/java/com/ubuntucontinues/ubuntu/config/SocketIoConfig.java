@@ -6,48 +6,69 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.ubuntucontinues.ubuntu.data.models.ChatMessage;
+import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
 import com.ubuntucontinues.ubuntu.services.SocketService;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
+@CrossOrigin("*")
 @Slf4j
 public class SocketIoConfig {
     @Value("${socket.host}")
     private String socketHost;
     @Value("${socket.port}")
     private int socketPort;
-    private SocketService socketService;
+    private final ConcurrentHashMap<String, String> connectedUser = new ConcurrentHashMap<>();
+    private final SocketService socketService;
     private SocketIOServer server;
+    public SocketIoConfig(SocketService socketService){
+        this.socketService = socketService;
+    }
+
     @Bean
-    public SocketIOServer socketIOServer(SocketService socketService){
+    public SocketIOServer socketIOServer(){
         Configuration configuration = new Configuration();
         configuration.setPort(socketPort);
         configuration.setHostname(socketHost);
-        this.socketService = socketService;
         this.server = new SocketIOServer(configuration);
         server.start();
         server.addConnectListener(onConnected());
         server.addDisconnectListener(onDisconnected());
         server.addEventListener("send_message", ChatMessage.class, onMessage());
+        server.addEventListener("register", String.class, addUser());
         return server;
     }
+
+    private DataListener<String> addUser() {
+        return ((socketIOClient, username, ackRequest) -> {
+           log.info("Adding -> {}", username);
+            connectedUser.put(username, socketIOClient.getSessionId().toString());
+        });
+    }
+
 
     private DataListener<ChatMessage> onMessage() {
         return (socketIOClient, message, ackSender) -> {
             log.info(message.toString());
-            socketService.saveSocketMessage(socketIOClient, message);
+            System.out.println(connectedUser);
+            String socketId = connectedUser.get(message.getRecipientId());
+            socketService.saveSocketMessage(message);
+            SendMessageResponse sendMessageResponse = new SendMessageResponse(message);
+            server.getClient(UUID.fromString(socketId)).sendEvent("message", sendMessageResponse);
         };
     }
 
     private DisconnectListener onDisconnected() {
-        return socketIOClient -> {
-            socketIOClient.getNamespace().getAllClients().stream().forEach(data-> {
-                log.info("user disconnected "+data.getSessionId().toString());});
-        };
+        return socketIOClient -> socketIOClient.getNamespace().getAllClients().forEach(data-> {
+            log.info("user disconnected "+data.getSessionId().toString());});
     }
 
     @PreDestroy
@@ -56,14 +77,7 @@ public class SocketIoConfig {
     }
 
     public ConnectListener onConnected(){
-        return (socketIOClient) ->{
-            log.info("Connected user with session id of "+ socketIOClient.getSessionId().toString());
-            var params = socketIOClient.getHandshakeData().getUrlParams();
-            String room = String.join("", params.get("room"));
-            String username = String.join("", params.get("username"));
-            socketIOClient.joinRoom(room);
-            log.info("Socket ID[{}] - room[{}] - username [{}]  Connected to chat module through", socketIOClient.getSessionId().toString(), room, username);
-        };
+        return (socketIOClient) -> log.info("Connected user with session id of "+ socketIOClient.getSessionId().toString());
     }
 
 

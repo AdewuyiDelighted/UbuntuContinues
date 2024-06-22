@@ -93,7 +93,7 @@ public class UbuntuChatRoomService implements ChatRoomService{
     public Optional<String> getAChatRoomId(RetrieveChatRoomRequest request) {
         Optional<String> chatId = chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(request.getSender(), request.getRecipient())
                                                     .map(ChatRoom::getChat_id)
-                                                    .or(null);
+                                                    .or(Optional::empty);
         if (chatId.isPresent()) return chatId;
         return chatRoomRepository.findChatRoomBySenderEmailAndRecipientEmail(request.getRecipient(), request.getSender())
                                                             .map(ChatRoom::getChat_id)
