@@ -58,17 +58,15 @@ public class SocketIoConfig {
     private DataListener<ChatMessage> onMessage() {
         return (socketIOClient, message, ackSender) -> {
             log.info(message.toString());
-            System.out.println(connectedUser);
             String socketId = connectedUser.get(message.getRecipientId());
             socketService.saveSocketMessage(message);
             SendMessageResponse sendMessageResponse = new SendMessageResponse(message);
-            server.getClient(UUID.fromString(socketId)).sendEvent("message", sendMessageResponse);
+            if(socketId != null) server.getClient(UUID.fromString(socketId)).sendEvent("message", sendMessageResponse);
         };
     }
 
     private DisconnectListener onDisconnected() {
-        return socketIOClient -> socketIOClient.getNamespace().getAllClients().forEach(data-> {
-            log.info("user disconnected "+data.getSessionId().toString());});
+        return socketIOClient -> socketIOClient.getNamespace().getAllClients().forEach(data-> log.info("user disconnected "+data.getSessionId().toString()));
     }
 
     @PreDestroy

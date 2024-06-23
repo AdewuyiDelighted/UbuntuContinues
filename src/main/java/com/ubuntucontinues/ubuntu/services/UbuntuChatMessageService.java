@@ -9,7 +9,6 @@ import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.RecentChats;
 import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,7 +65,6 @@ public class UbuntuChatMessageService implements ChatMessageService {
     }
 
     private List<String> senderChatRooms(List<ChatRoom> chatRooms) {
-        System.out.println("chatroom size " + chatRooms.size());
         return chatRooms.stream()
                 .map(ChatRoom::getChat_id)
                 .toList();
