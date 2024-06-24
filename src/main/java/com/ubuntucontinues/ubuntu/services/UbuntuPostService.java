@@ -4,7 +4,6 @@ import com.ubuntucontinues.ubuntu.data.models.Post;
 import com.ubuntucontinues.ubuntu.data.models.User;
 import com.ubuntucontinues.ubuntu.data.repositories.PostRepository;
 import com.ubuntucontinues.ubuntu.dto.requests.CreatePostRequest;
-import com.ubuntucontinues.ubuntu.dto.responses.GetAllPostResponse;
 import com.ubuntucontinues.ubuntu.dto.requests.LikePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.*;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
@@ -81,10 +81,19 @@ public class UbuntuPostService implements PostService{
                 new PostNotExistException(POST_NOT_EXIST));
     }
 
+    Comparator<Post> comparator = (post1, post2) -> {
+        if (post1.getCreatedAt().isAfter(post2.getCreatedAt())) return -1;
+        else if (post2.getCreatedAt().isAfter(post1.getCreatedAt())) {
+            return 1;
+        }else return 0;
+    };
+
     @Override
     public List<PostResponse> getAllPostByUser(String userId) throws UserExistException {
         return repository.findAllPostByUser(userService.findBY(userId))
-                .stream().map(PostResponse::new).toList();
+                .stream()
+                .sorted(comparator)
+                .map(PostResponse::new).toList();
     }
 
     @Override
@@ -110,11 +119,10 @@ public class UbuntuPostService implements PostService{
 
     @Override
     public List<GetAllPostResponse> getAllPost() {
-        log.info("size of post {}", repository.findAll().size());
-        log.info("post {}", repository.findAll());
-        return repository.findAll().stream().map(
-                GetAllPostResponse::new
-        ).toList();
+        return repository.findAll().stream()
+                .sorted(comparator)
+                .map(GetAllPostResponse::new)
+                .toList();
     }
 
 

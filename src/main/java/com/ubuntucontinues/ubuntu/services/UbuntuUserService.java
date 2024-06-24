@@ -78,7 +78,7 @@ public class UbuntuUserService implements UserService {
     }
 
     @Override
-    public void setLoginPassword(User user, String password) throws UserExistException {
+    public void setLoginPassword(User user, String password) {
         Optional<User> foundUser = findByEmail(user.getEmail());
         foundUser.get().setPassword(password);
         userRepository.save(foundUser.get());
@@ -117,13 +117,13 @@ public class UbuntuUserService implements UserService {
     public LoginResponse login(LoginRequest loginRequest) throws InvalidDetailException {
         User user = userRepository.findUserByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
-        System.out.println(user);
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
         if (user.getAccountState() == NOT_ACTIVATED) user.setAccountState(ACTIVATED);
+        userRepository.save(user);
         String token = jwtService.createToken(user.getId(), user.getEmail());
         LoginResponse response = new LoginResponse();
         response.setToken(token);
-        response.setMessage("Login successfully");
+        response.setMessage(LOGIN_MESSAGE);
         return response;
     }
 
