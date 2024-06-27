@@ -10,11 +10,14 @@ import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
 import com.ubuntucontinues.ubuntu.dto.responses.RecentChats;
 import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.data.mongodb.core.messaging.Message;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.ubuntucontinues.ubuntu.data.enums.MessageStatus.READ;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +34,8 @@ public class UbuntuChatMessageService implements ChatMessageService {
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
         ChatMessage chatMessage = new ChatMessage(chatId.get(), sendMessageRequest.getSendId(),
                 sendMessageRequest.getRecipientId(), sendMessageRequest.getContent());
-        ChatMessage message = chatMessageRepository.save(chatMessage);
+        chatMessage.setStatus(MessageStatus.UNREAD);
+        chatMessageRepository.save(chatMessage);
         SendMessageResponse sendMessageResponse = new SendMessageResponse();
         sendMessageResponse.setSendId(chatMessage.getSendId());
         sendMessageResponse.setRecipientId(chatMessage.getRecipientId());
@@ -48,6 +52,7 @@ public class UbuntuChatMessageService implements ChatMessageService {
         retrieveChatRoomRequest.setSender(findAllMessagesRequest.getSendId());
         retrieveChatRoomRequest.setRecipient(findAllMessagesRequest.getRecipientId());
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
+        convertMessageToUnread(chatId.get(), findAllMessagesRequest.getSendId());
         return chatMessageRepository.findByChatMessageId(chatId.get())
                 .stream()
                 .map(SendMessageResponse::new)
@@ -90,22 +95,37 @@ public class UbuntuChatMessageService implements ChatMessageService {
         if (!splitChatId[count].equals(senderEmail)) {
             RecentChats newRecentChat = new RecentChats();
             newRecentChat.setRecipientEmail(splitChatId[count]);
+            newRecentChat.setNumberOfUnreadMessage(getUnReadMessage(senderEmail,splitChatId[count]));
             recentChats.add(newRecentChat);
         }
     }
 
-    public  Long getUnReadMessage(String sender, String recipient){
+    public Long getUnReadMessage(String sender, String recipient) {
         RetrieveChatRoomRequest retrieveChatRoomRequest = new RetrieveChatRoomRequest();
         retrieveChatRoomRequest.setSender(sender);
         retrieveChatRoomRequest.setRecipient(recipient);
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
-        if (chatId.isPresent()){
+        if (chatId.isPresent()) {
             return (long) chatMessageRepository.findByChatMessageId(chatId.get()).stream()
                     .filter(chatMessage -> isChatUnreadByTheRecipient(sender, chatMessage))
                     .toList()
                     .size();
         }
         return null;
+    }
+
+
+    private void convertMessageToUnread(String chatId, String senderId) {
+        List<ChatMessage> chatMessages = chatMessageRepository.findByChatMessageId(chatId);
+        chatMessages.stream()
+                .filter(chatMessage -> chatMessage.getRecipientId().equals(senderId))
+                .forEach(chatMessage -> setMessageToRead(chatMessage));
+
+    }
+
+    private void setMessageToRead(ChatMessage message) {
+        message.setStatus(READ);
+        chatMessageRepository.save(message);
     }
 
     private static boolean isChatUnreadByTheRecipient(String sender, ChatMessage chatMessage) {
