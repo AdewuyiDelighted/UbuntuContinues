@@ -66,7 +66,9 @@ public class SocketIoConfig {
     }
 
     private DisconnectListener onDisconnected() {
-        return socketIOClient -> socketIOClient.getNamespace().getAllClients().forEach(data-> log.info("user disconnected "+data.getSessionId().toString()));
+        return socketIOClient -> socketIOClient.getNamespace().getAllClients().forEach(data -> {
+            log.info("user disconnected "+data.getSessionId().toString());
+        });
     }
 
     @PreDestroy

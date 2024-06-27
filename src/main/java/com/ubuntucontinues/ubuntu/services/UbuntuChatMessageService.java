@@ -1,5 +1,6 @@
 package com.ubuntucontinues.ubuntu.services;
 
+import com.ubuntucontinues.ubuntu.data.enums.MessageStatus;
 import com.ubuntucontinues.ubuntu.data.models.ChatMessage;
 import com.ubuntucontinues.ubuntu.data.models.ChatRoom;
 import com.ubuntucontinues.ubuntu.data.repositories.ChatMessageRepository;
@@ -46,7 +47,6 @@ public class UbuntuChatMessageService implements ChatMessageService {
         RetrieveChatRoomRequest retrieveChatRoomRequest = new RetrieveChatRoomRequest();
         retrieveChatRoomRequest.setSender(findAllMessagesRequest.getSendId());
         retrieveChatRoomRequest.setRecipient(findAllMessagesRequest.getRecipientId());
-
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
         return chatMessageRepository.findByChatMessageId(chatId.get())
                 .stream()
@@ -72,7 +72,6 @@ public class UbuntuChatMessageService implements ChatMessageService {
 
     private List<RecentChats> getRecentChatEmails(String senderEmail, List<ChatRoom> chatRooms) {
         List<String> chatIds = senderChatRooms(chatRooms);
-
         List<RecentChats> recentChats = new ArrayList<>();
         String[] splitChatId;
         int count = 0;
@@ -87,11 +86,25 @@ public class UbuntuChatMessageService implements ChatMessageService {
         return recentChats;
     }
 
-    private static void setRecentChats(String senderEmail, String[] splitChatId, int count, List<RecentChats> recentChats) {
+    private void setRecentChats(String senderEmail, String[] splitChatId, int count, List<RecentChats> recentChats) {
         if (!splitChatId[count].equals(senderEmail)) {
             RecentChats newRecentChat = new RecentChats();
             newRecentChat.setRecipientEmail(splitChatId[count]);
             recentChats.add(newRecentChat);
         }
+    }
+
+    public  Long getUnReadMessage(String sender, String recipient){
+        RetrieveChatRoomRequest retrieveChatRoomRequest = new RetrieveChatRoomRequest();
+        retrieveChatRoomRequest.setSender(sender);
+        retrieveChatRoomRequest.setRecipient(recipient);
+        Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
+        if (chatId.isPresent()){
+            return (long) chatMessageRepository.findByChatMessageId(chatId.get()).stream()
+                    .filter(chatMessage -> chatMessage.getStatus() == MessageStatus.UNREAD)
+                    .toList()
+                    .size();
+        }
+        return null;
     }
 }
