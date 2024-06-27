@@ -10,4 +10,6 @@ import lombok.ToString;
 @ToString
 public class RecentChats {
     private String recipientEmail;
+
+
 }

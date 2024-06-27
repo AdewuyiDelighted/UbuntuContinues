@@ -1,11 +1,18 @@
 package com.ubuntucontinues.ubuntu.data.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.ubuntucontinues.ubuntu.data.enums.MessageStatus;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Document
 @Setter
@@ -18,7 +25,12 @@ public class ChatMessage {
     private String sendId;
     private String recipientId;
     private String content;
-    private OffsetDateTime dateSent = OffsetDateTime.now();
+    private MessageStatus status= MessageStatus.UNREAD;
+//    @JsonDeserialize(using = OffsetTimeDeserializer.class)
+//    private OffsetDateTime dateSent = OffsetDateTime.now();
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonIgnore
+    private LocalDate dateSent = LocalDate.now();
 
     public ChatMessage(String id, String sendId,  String recipientId, String content) {
         this.chatMessageId = id;

@@ -1,12 +1,11 @@
 package com.ubuntucontinues.ubuntu.services;
 
 
-import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
 import com.ubuntucontinues.ubuntu.data.repositories.ChatRoomRepository;
-
+import com.ubuntucontinues.ubuntu.dto.requests.FindAllMessagesRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.SendMessageRequest;
-import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.RecentChats;
+import com.ubuntucontinues.ubuntu.dto.responses.SendMessageResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +24,8 @@ public class ChatMessageServiceTest {
     private ChatMessageService chatMessageService;
     @Autowired
     private ChatRoomRepository chatRoomRepository;
+    @Autowired
+    private UbuntuChatMessageService ubuntuChatMessageService;
 
 
     @Test
@@ -49,4 +50,11 @@ public class ChatMessageServiceTest {
         List<RecentChats> recentChats = chatMessageService.findRecentlyChats("ojot630@gmail.com");
         assertEquals(2,recentChats.size());
     }
+
+    @Test
+    public void testThatWeCanGetAllUnreadMessageBetweenTwoFriends(){
+        Long numberOfUnreadMessage = ubuntuChatMessageService.getUnReadMessage("ojot630@gmail.com", "delightedAdewuyi5@gmail.com");
+        assertEquals(16, numberOfUnreadMessage);
+    }
+
 }

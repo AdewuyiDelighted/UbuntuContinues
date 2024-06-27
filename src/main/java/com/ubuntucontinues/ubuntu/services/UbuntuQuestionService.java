@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ubuntucontinues.ubuntu.util.AppUtils.DELETE_QUESTION_RESPONSE;
 import static com.ubuntucontinues.ubuntu.util.AppUtils.QUESTION_UPLOADED_MESSAGE;
 
 
@@ -87,7 +88,14 @@ public class UbuntuQuestionService implements QuestionService {
         Optional<Question> foundQuestion = questionRepository.findById(questionId);
         foundQuestion.ifPresent(question -> questionRepository.delete(question));
         DeleteQuestionResponse response = new DeleteQuestionResponse();
-        response.setMessage("Question Deleted Successfully");
+        response.setMessage(DELETE_QUESTION_RESPONSE);
         return response;
     }
+
+    @Override
+    public List<QuestionResponse> findSimilarTitleQuestion(String loops) {
+        return null;
+    }
+
+
 }
