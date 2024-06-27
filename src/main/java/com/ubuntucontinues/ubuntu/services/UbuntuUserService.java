@@ -103,6 +103,11 @@ public class UbuntuUserService implements UserService {
     }
 
     @Override
+    public Integer getAllUsersCount() {
+        return Math.toIntExact(userRepository.count());
+    }
+
+    @Override
     public User findBY(String userName) throws UserExistException {
         return userRepository.findById(userName)
                 .orElseThrow(() -> new UserExistException("\"err\" :\"Not a valid user\""));
