@@ -23,6 +23,7 @@ public class Question {
     private String id;
     private String title;
     private String body;
+    private String codeSnippet;
     @DBRef
     private User user;
     private LocalDateTime dateCreated = LocalDateTime.now();

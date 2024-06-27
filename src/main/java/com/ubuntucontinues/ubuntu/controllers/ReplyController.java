@@ -10,10 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/reply")
@@ -22,8 +19,13 @@ public class ReplyController {
     private ReplyService replyService;
 
     @PostMapping("/reply")
-    public ResponseEntity<?> reply (@RequestBody UbuntuReplyToQuestionRequest request) throws QuestionExistException, UserExistException {
-       return ResponseEntity.ok(replyService.reply(request));
+    public ResponseEntity<?> reply(@RequestBody UbuntuReplyToQuestionRequest request) throws QuestionExistException, UserExistException {
+        return ResponseEntity.ok(replyService.reply(request));
+    }
+
+    @GetMapping("/reply")
+    public ResponseEntity<?> getQuestionReplies(@RequestParam("questionId") String questionId){
+        return ResponseEntity.ok(replyService.getQuestionReplies(questionId));
     }
 
     private ApiResponse getApiResponseResponseEntity(BindingResult result) {
