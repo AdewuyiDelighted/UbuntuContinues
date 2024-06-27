@@ -101,10 +101,16 @@ public class UbuntuChatMessageService implements ChatMessageService {
         Optional<String> chatId = ubuntuChatRoomService.getAChatRoomId(retrieveChatRoomRequest);
         if (chatId.isPresent()){
             return (long) chatMessageRepository.findByChatMessageId(chatId.get()).stream()
-                    .filter(chatMessage -> chatMessage.getStatus() == MessageStatus.UNREAD)
+                    .filter(chatMessage -> isChatUnreadByTheRecipient(sender, chatMessage))
                     .toList()
                     .size();
         }
         return null;
     }
+
+    private static boolean isChatUnreadByTheRecipient(String sender, ChatMessage chatMessage) {
+        return chatMessage.getRecipientId().equals(sender) &&
+                chatMessage.getStatus() == MessageStatus.UNREAD;
+    }
+
 }
