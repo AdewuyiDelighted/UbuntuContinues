@@ -138,19 +138,20 @@ public class UbuntuUserService implements UserService {
 
     @Override
     public List<User> getAllUnActivated() {
-        getAllActivated();
+//        getAllActivated();
         return userRepository.findAll()
                 .stream()
-                .filter(user -> user.getAccountState().equals(NOT_ACTIVATED))
+                .filter(foundUser -> foundUser.getAccountState().equals(NOT_ACTIVATED))
                 .toList();
     }
 
     public void getAllActivated() {
         userRepository.findAll()
-                .forEach(user -> {
-                    if (user.getAccountState().equals(ACTIVATED)) ;
+                .forEach(user -> {if (user.getAccountState().equals(ACTIVATED)) ;
                 });
+
     }
+
 
 
 

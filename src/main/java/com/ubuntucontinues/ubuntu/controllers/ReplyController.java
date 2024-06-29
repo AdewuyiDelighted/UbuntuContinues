@@ -24,8 +24,8 @@ public class ReplyController {
     }
 
     @GetMapping("/reply")
-    public ResponseEntity<?> getQuestionReplies(@RequestParam("questionId") String questionId){
-        return ResponseEntity.ok(replyService.getQuestionReplies(questionId));
+    public ResponseEntity<?> getQuestionReplies(@RequestParam("questionId") String questionId) throws QuestionExistException {
+        return ResponseEntity.ok(replyService.questionReplies(questionId));
     }
 
     private ApiResponse getApiResponseResponseEntity(BindingResult result) {
