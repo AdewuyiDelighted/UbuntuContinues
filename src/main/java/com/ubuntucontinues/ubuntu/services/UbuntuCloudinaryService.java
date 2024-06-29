@@ -18,20 +18,6 @@ public class UbuntuCloudinaryService implements CloudinaryService {
     private final Cloudinary cloudinary;
     private final UserService userService;
     private final ImageRepository imageRepository;
-
-//    @Override
-//    public UploadImageResponse uploadImage(UploadImageRequest uploadImageRequest) throws IOException {
-//        System.out.println(uploadImageRequest.getUserId());
-//        System.out.println(uploadImageRequest.getMultipartFile());
-//        Map uploadedFile = cloudinary.uploader()
-//                .upload(uploadImageRequest.getMultipartFile().getBytes(), ObjectUtils.emptyMap());
-//        saveFile(uploadImageRequest, uploadedFile);
-//
-//        UploadImageResponse uploadImageResponse = new UploadImageResponse();
-//        uploadImageResponse.setImageUrl(uploadedFile.get("url").toString());
-//
-//        return uploadImageResponse;
-//    }
     @Override
     public UploadImageResponse uploadImage(MultipartFile multipartFile) throws IOException {
 
