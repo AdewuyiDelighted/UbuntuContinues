@@ -23,10 +23,10 @@ public class ReplyController {
         return ResponseEntity.ok(replyService.reply(request));
     }
 
-    @GetMapping("/reply")
-    public ResponseEntity<?> getQuestionReplies(@RequestParam("questionId") String questionId){
-        return ResponseEntity.ok(replyService.getQuestionReplies(questionId));
-    }
+//    @GetMapping("/reply")
+//    public ResponseEntity<?> getQuestionReplies(@RequestParam("questionId") String questionId){
+//        return ResponseEntity.ok(replyService.getQuestionReplies(questionId));
+//    }
 
     private ApiResponse getApiResponseResponseEntity(BindingResult result) {
         if (result.hasErrors()) {
