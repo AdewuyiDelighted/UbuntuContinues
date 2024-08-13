@@ -22,7 +22,7 @@ import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
 @Service
 @AllArgsConstructor
 public class UbuntuCommunityManagerService implements CommunityManagerService{
-    private  UserService userService;
+    private UserService userService;
     private EventService eventService;
     private CohortService cohortService;
     private ScheduleSendNotificationService sendNotificationService;

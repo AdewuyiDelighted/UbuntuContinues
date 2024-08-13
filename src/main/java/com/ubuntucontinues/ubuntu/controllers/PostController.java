@@ -24,11 +24,12 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("/create_post")
-    public ResponseEntity<CreatePostResponse> post(
-            @RequestPart(value = "image", required = false) MultipartFile multipartFile,
-            @ModelAttribute CreatePostRequest request
-    ) throws UserExistException, IOException {
-        return new ResponseEntity<>(postService.post(request, multipartFile), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<?>> post(@RequestPart(value = "image", required = false) MultipartFile multipartFile, @ModelAttribute CreatePostRequest request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, postService.post(request, multipartFile)), HttpStatus.CREATED);
+        }catch(UserExistException | IOException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @DeleteMapping("/{postId}")
