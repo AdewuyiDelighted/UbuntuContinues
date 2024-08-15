@@ -3,7 +3,7 @@ package com.ubuntucontinues.ubuntu.controllers;
 import com.ubuntucontinues.ubuntu.dto.requests.CreatePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.LikePostRequest;
 import com.ubuntucontinues.ubuntu.dto.requests.UpdatePostRequest;
-import com.ubuntucontinues.ubuntu.dto.responses.*;
+import com.ubuntucontinues.ubuntu.dto.responses.ApiResponse;
 import com.ubuntucontinues.ubuntu.exceptions.PostNotExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import com.ubuntucontinues.ubuntu.services.PostService;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/ubuntu/post")
@@ -33,23 +32,36 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<DeletePostResponse> delete(@PathVariable String postId) {
-        return new ResponseEntity<>(postService.delete(postId), HttpStatus.OK);
+    public ResponseEntity<ApiResponse<?>> delete(@PathVariable String postId) {
+        return new ResponseEntity<>(new ApiResponse<>(true, postService.delete(postId)), HttpStatus.OK);
     }
 
     @PatchMapping()
-    public ResponseEntity<UpdatePostResponse> update(@RequestBody UpdatePostRequest request) throws PostNotExistException {
-        return new ResponseEntity<>(postService.update(request), HttpStatus.OK);
+    public ResponseEntity<ApiResponse<?>> update(@RequestBody UpdatePostRequest request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, postService.update(request)), HttpStatus.OK);
+        }catch (PostNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<PostResponse>> findAllPostBy(@PathVariable String userId) throws UserExistException {
-        return new ResponseEntity<>(postService.getAllPostByUser(userId), HttpStatus.FOUND);
+    public ResponseEntity<ApiResponse<?>> findAllPostBy(@PathVariable String userId){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, postService.getAllPostByUser(userId)), HttpStatus.FOUND);
+        }catch (UserExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+
+        }
     }
 
     @PostMapping("/like")
-    public ResponseEntity<LikePostResponse> likePost(@RequestBody LikePostRequest request) throws PostNotExistException {
-        return new ResponseEntity<>(postService.likePost(request), HttpStatus.ACCEPTED);
+    public ResponseEntity<ApiResponse<?>> likePost(@RequestBody LikePostRequest request){
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, postService.likePost(request)), HttpStatus.ACCEPTED);
+        }catch (PostNotExistException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
 
