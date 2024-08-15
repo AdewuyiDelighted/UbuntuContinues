@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SocketIoConfig {
     @Value("${socket.host}")
     private String socketHost;
-    @Value("${socket.port}")
+    @Value("${socket_port}")
     private int socketPort;
     private final ConcurrentHashMap<String, String> connectedUser = new ConcurrentHashMap<>();
     private final SocketService socketService;
