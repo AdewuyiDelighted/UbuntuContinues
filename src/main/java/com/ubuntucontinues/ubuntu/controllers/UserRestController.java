@@ -1,8 +1,8 @@
 package com.ubuntucontinues.ubuntu.controllers;
 
 import com.ubuntucontinues.ubuntu.dto.requests.LoginRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.ApiResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.FindAllUsersResponse;
-import com.ubuntucontinues.ubuntu.dto.responses.LoginResponse;
 import com.ubuntucontinues.ubuntu.exceptions.InvalidDetailException;
 import com.ubuntucontinues.ubuntu.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,12 @@ public class UserRestController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws InvalidDetailException {
-        return ResponseEntity.ok(userService.login(loginRequest));
+    public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginRequest loginRequest){
+        try {
+            return ResponseEntity.ok(new ApiResponse<>(true, userService.login(loginRequest)));
+        }catch(InvalidDetailException exception){
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
 
     @GetMapping("/cohort/{cohortNumber}")
