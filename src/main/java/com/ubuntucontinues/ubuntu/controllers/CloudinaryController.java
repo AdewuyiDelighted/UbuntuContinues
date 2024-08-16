@@ -1,7 +1,9 @@
 package com.ubuntucontinues.ubuntu.controllers;
 
 import com.ubuntucontinues.ubuntu.dto.requests.UploadImageRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.ApiResponse;
 import com.ubuntucontinues.ubuntu.dto.responses.UploadImageResponse;
+import com.ubuntucontinues.ubuntu.exceptions.EventAlreadyExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import com.ubuntucontinues.ubuntu.services.ChatMessageService;
 import com.ubuntucontinues.ubuntu.services.ChatRoomService;
@@ -22,8 +24,13 @@ public class CloudinaryController {
 
 
     @GetMapping("/uploadImage")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
-        return ResponseEntity.ok(cloudinaryService.uploadImage(file));
+    public ResponseEntity<ApiResponse<?>> uploadImage(@RequestParam("file") MultipartFile file)  {
+        try {
+            return ResponseEntity.ok(new ApiResponse<>(true,cloudinaryService.uploadImage(file)));
+        }catch (IOException exception) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.ubuntucontinues.ubuntu.controllers;
 
 import com.ubuntucontinues.ubuntu.dto.requests.UploadQuestionRequest;
+import com.ubuntucontinues.ubuntu.dto.responses.ApiResponse;
 import com.ubuntucontinues.ubuntu.exceptions.QuestionDoesNotExistException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import com.ubuntucontinues.ubuntu.services.QuestionService;
@@ -25,22 +26,24 @@ public class QuestionController {
         return new ResponseEntity<>(questionService.findAllByUser(userId), HttpStatus.OK);
     }
 
-//    @GetMapping("/getQuestions")
-//    public ResponseEntity<?> getAllQuestions() {
-//        return new ResponseEntity<>(questionService.findAll(), HttpStatus.OK);
-//    }
+
     @GetMapping("/getQuestion")
     public ResponseEntity<?> getAllQuestion() {
         return new ResponseEntity<>(questionService.findAllQuestions(), HttpStatus.OK);
     }
 
     @PostMapping("/getAQuestion")
-    public ResponseEntity<?> getAQuestion(@RequestParam("questionId") String questionId) throws QuestionDoesNotExistException {
-        return new ResponseEntity<>(questionService.findAQuestion(questionId), HttpStatus.OK);
+    public ResponseEntity<ApiResponse<?>> getAQuestion(@RequestParam("questionId") String questionId) {
+        try {
+            return new ResponseEntity<>(new ApiResponse<>(true, questionService.findAQuestion(questionId)), HttpStatus.OK);
+        } catch (QuestionDoesNotExistException exception) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
+        }
     }
+
     @PostMapping("/deleteQuestion")
-    public ResponseEntity<?> deleteQuestion(@RequestParam ("questionId") String questionId){
-        return new ResponseEntity<>(questionService.deleteAQuestion(questionId),HttpStatus.OK);
+    public ResponseEntity<?> deleteQuestion(@RequestParam("questionId") String questionId) {
+        return new ResponseEntity<>(questionService.deleteAQuestion(questionId), HttpStatus.OK);
     }
 
 }
