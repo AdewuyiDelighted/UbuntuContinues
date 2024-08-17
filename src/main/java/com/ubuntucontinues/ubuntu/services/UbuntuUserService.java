@@ -10,6 +10,7 @@ import com.ubuntucontinues.ubuntu.dto.responses.*;
 import com.ubuntucontinues.ubuntu.exceptions.InvalidDetailException;
 import com.ubuntucontinues.ubuntu.exceptions.UserExistException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import static com.ubuntucontinues.ubuntu.util.AppUtils.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UbuntuUserService implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -123,7 +125,8 @@ public class UbuntuUserService implements UserService {
         User user = userRepository.findUserByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new InvalidDetailException(INVALID_DETAIL));
         if (!user.getPassword().equals(loginRequest.getPassword())) throw new InvalidDetailException(INVALID_DETAIL);
-        if (user.getAccountState() == NOT_ACTIVATED) user.setAccountState(ACTIVATED);
+        if (user.getAccountState() == NOT_ACTIVATED) {user.setAccountState(ACTIVATED);}
+        log.info("user find by email {}", user);
         userRepository.save(user);
         String token = jwtService.createToken(user.getId(), user.getEmail());
         LoginResponse response = new LoginResponse();
