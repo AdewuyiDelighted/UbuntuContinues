@@ -45,7 +45,7 @@ public class CommunityManagerController {
     }
 
     @GetMapping("/findAllEvent")
-    public ResponseEntity<ApiResponse<?>> findAllEvent() throws EventDoesntExistException {
+    public ResponseEntity<ApiResponse<?>> findAllEvent() {
         try {
             return new ResponseEntity<>(new ApiResponse<>(true, eventServices.findAllEvent()), HttpStatus.OK);
         } catch (EventDoesntExistException exception) {
@@ -54,7 +54,7 @@ public class CommunityManagerController {
     }
 
     @PostMapping("/deleteEvent")
-    public ResponseEntity<ApiResponse<?>> deleteEvent(@RequestParam("eventId") String eventId) throws EventDoesntExistException {
+    public ResponseEntity<ApiResponse<?>> deleteEvent(@RequestParam("eventId") String eventId){
         try {
             return new ResponseEntity<>(new ApiResponse<>(true, eventServices.deleteEvent(eventId)), HttpStatus.OK);
 

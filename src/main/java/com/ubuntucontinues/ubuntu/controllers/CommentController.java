@@ -28,7 +28,7 @@ public class CommentController {
     @GetMapping("/list/{postId}")
     public ResponseEntity<ApiResponse<?>> findAllPostComment(@PathVariable String postId) {
         try {
-            return new ResponseEntity<>(new ApiResponse<>(false, commentService.getAllCommentByPost(postId)), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiResponse<>(true, commentService.getAllCommentByPost(postId)), HttpStatus.OK);
         }catch (PostNotExistException exception){
             return ResponseEntity.badRequest().body(new ApiResponse<>(false, exception.getMessage()));
         }

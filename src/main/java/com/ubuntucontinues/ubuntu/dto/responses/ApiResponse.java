@@ -9,5 +9,5 @@ import lombok.Setter;
 @Setter
 public class ApiResponse<T> {
     private boolean status;
-    private T data;
+    private T body;
 }
